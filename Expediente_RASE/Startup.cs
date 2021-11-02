@@ -32,7 +32,7 @@ namespace Expediente_RASE
             services.AddControllers();
             //Agregamos un servicio de Tipo ApplicationDbContext
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("CadConexionSQL")));
+                options.UseSqlServer(Configuration.GetConnectionString("Sucursal1")));
 
             services.AddSwaggerGen(c =>
             {
