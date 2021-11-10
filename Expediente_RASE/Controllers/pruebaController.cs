@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Expediente_RASE.Models;
 
@@ -10,7 +10,7 @@ using Expediente_RASE.Models;
 
 namespace Expediente_RASE.Controllers
 {
-    [Route("api/usuarios")]
+    [Route("api/T_USUARIOS")]
     [ApiController]
     public class pruebaController : ControllerBase
     {
@@ -20,25 +20,20 @@ namespace Expediente_RASE.Controllers
         {
             this.oContext = context;
         }
-        // GET: api/<pruebaController>
-        [HttpGet("lista")]
-        public async Task<ActionResult<T_USUARIOS>> PrimerAutor()
-        {
-            return await oContext.T_USUARIOS.
-        }
-
-        // GET api/<pruebaController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<pruebaController>
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
+
+        // GET: api/<pruebaController>
+
+        [HttpGet]
+        public async Task<ActionResult<List<T_USUARIOS>>> Get()
+        {
+            return await oContext.T_USUARIOS.ToListAsync();
+
+        }
+       
 
         // PUT api/<pruebaController>/5
         [HttpPut("{id}")]

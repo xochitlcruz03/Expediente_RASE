@@ -10,7 +10,8 @@ namespace Expediente_RASE.Models
     public class T_USUARIOS
     {
         [Required(ErrorMessage = "El campo USUARIO es requerido")]
-        public string ID_USER { get; set; }
+        [Key]
+        public int ID_USER { get; set; }
 
         [Required]
         public string CORREO_U { get; set; }

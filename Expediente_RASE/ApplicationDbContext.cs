@@ -14,6 +14,6 @@ namespace Expediente_RASE
         {
         }
 
-        public DbSet<sucursal> Sucursal { get; set; }
+        public DbSet<T_USUARIOS> T_USUARIOS { get; set; }
     }
 }
