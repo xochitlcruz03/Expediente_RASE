@@ -4,20 +4,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Expediente_RASE.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Expediente_RASE.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/usuarios")]
     [ApiController]
     public class pruebaController : ControllerBase
     {
-        // GET: api/<pruebaController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        //xochitl 
+        private ApplicationDbContext oContext;
+        public pruebaController(ApplicationDbContext context) //Inyeccion de una dependencia
         {
-            return new string[] { "value1", "value2" };
+            this.oContext = context;
+        }
+        // GET: api/<pruebaController>
+        [HttpGet("lista")]
+        public async Task<ActionResult<T_USUARIOS>> PrimerAutor()
+        {
+            return await oContext.T_USUARIOS.
         }
 
         // GET api/<pruebaController>/5
