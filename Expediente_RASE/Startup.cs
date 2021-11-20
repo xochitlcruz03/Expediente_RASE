@@ -34,10 +34,10 @@ namespace Expediente_RASE
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Sucursal1")));
 
-            services.AddSwaggerGen(c =>
+            /*services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Expediente_RASE", Version = "v1" });
-            });
+            });*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,9 +45,14 @@ namespace Expediente_RASE
         {
             if (env.IsDevelopment())
             {
+                app.UseDefaultFiles(new DefaultFilesOptions
+                {
+                    DefaultFileNames = new
+                        List<string> { "index.html" }
+                });
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Expediente_RASE v1"));
+               /* app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Expediente_RASE v1"));*/
             }
 
             app.UseHttpsRedirection();
