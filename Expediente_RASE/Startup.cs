@@ -33,6 +33,11 @@ namespace Expediente_RASE
             //Agregamos un servicio de Tipo ApplicationDbContext
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Sucursal1")));
+            //DANIEL 22/11/2021
+            services.AddCors(options => options.AddPolicy("AllowWebApp",
+                             builder => builder.AllowAnyOrigin()
+                                               .AllowAnyMethod()
+                                               .AllowAnyHeader()));
 
             /*services.AddSwaggerGen(c =>
             {
@@ -56,6 +61,8 @@ namespace Expediente_RASE
             }
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            //DANIEL 22/11/2021
+            app.UseCors("AllowWbeApp");
             app.UseHttpsRedirection();
 
             app.UseRouting();
