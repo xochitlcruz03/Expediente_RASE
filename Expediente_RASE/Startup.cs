@@ -67,7 +67,7 @@ namespace Expediente_RASE
             app.UseDefaultFiles();
             app.UseStaticFiles();
             //DANIEL 22/11/2021
-            app.UseCors("AllowWbeApp");
+            app.UseCors("AllowWebApp");
             app.UseHttpsRedirection();
 
             app.UseRouting();
