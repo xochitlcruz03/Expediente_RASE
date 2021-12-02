@@ -8,12 +8,14 @@ using Expediente_RASE.Models;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using Microsoft.Data.SqlClient;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Expediente_RASE.Controllers
 {
-    [Route("api/primer")]
+    [Route("api/User")]
+    [Authorize]
     [ApiController]
     public class pruebaController : ControllerBase
     {

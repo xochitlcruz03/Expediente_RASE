@@ -14,6 +14,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
 using Expediente_RASE.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Expediente_RASE
 {
@@ -34,8 +37,27 @@ namespace Expediente_RASE
             //Agregamos un servicio de Tipo ApplicationDbContext
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Sucursal1")));
+            //Lo que pidio Dniel de autenticacion Angular
+            var jwtSettings = Configuration.GetSection("JwtSettings");
+            services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtSettings.GetSection("validIssuer").Value,
+                    ValidAudience = jwtSettings.GetSection("validAudience").Value,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.GetSection("securityKey").Value))
+                };
+            });
             //DANIEL 22/11/2021
-           services.AddCors(options => options.AddPolicy("AllowWebApp",
+            services.AddCors(options => options.AddPolicy("AllowWebApp",
                              builder => builder.AllowAnyOrigin()
                                                .AllowAnyMethod()
                                                .AllowAnyHeader()));
@@ -48,6 +70,7 @@ namespace Expediente_RASE
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Expediente_RASE", Version = "v1" });
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,6 +95,8 @@ namespace Expediente_RASE
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            //daniel 01/12
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
