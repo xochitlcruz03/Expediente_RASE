@@ -21,7 +21,7 @@ namespace Expediente_RASE
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    Console.WriteLine("Hello world");
+                    //Console.WriteLine("Hello world");
                 });
     }
 }

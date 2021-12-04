@@ -12,7 +12,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\index.html" />
+    <Content Remove="kake\index.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="kake\css\site.css" />
+    <Content Include="kake\js\site.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,10 +30,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\index.html" />
   </ItemGroup>
 
 </Project>

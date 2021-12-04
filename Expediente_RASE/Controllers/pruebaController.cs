@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Expediente_RASE.Controllers
 {
     [Route("api/User")]
-    [Authorize]
+   // [Authorize]
     [ApiController]
     public class pruebaController : ControllerBase
     {
@@ -46,9 +46,9 @@ namespace Expediente_RASE.Controllers
        */
         // GET: api/<pruebaController>
         [HttpGet]
-        public async Task<ActionResult<List<T_USUARIOS>>> Get()
+        public async Task<ActionResult<List<TUSUARIOS>>> Get()
         {
-            return await oContext.T_USUARIOS.ToListAsync();
+            return await oContext.TUSUARIO1.ToListAsync();
         }
 
         /* [HttpGet]

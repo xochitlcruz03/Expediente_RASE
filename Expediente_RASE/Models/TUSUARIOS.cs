@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Expediente_RASE.Models
 {
     //xochitl
-    public class T_USUARIOS
+    public class TUSUARIOS
     {
         [Required(ErrorMessage = "El campo USUARIO es requerido")]
         [Key]

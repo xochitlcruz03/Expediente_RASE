@@ -37,8 +37,13 @@ namespace Expediente_RASE
             //Agregamos un servicio de Tipo ApplicationDbContext
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Sucursal1")));
+            
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Expediente_RASE", Version = "v1" });
+            });
             //Lo que pidio Dniel de autenticacion Angular
-            var jwtSettings = Configuration.GetSection("JwtSettings");
+           /* var jwtSettings = Configuration.GetSection("JwtSettings");
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -55,7 +60,7 @@ namespace Expediente_RASE
                     ValidAudience = jwtSettings.GetSection("validAudience").Value,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.GetSection("securityKey").Value))
                 };
-            });
+            });*/
             //DANIEL 22/11/2021
             services.AddCors(options => options.AddPolicy("AllowWebApp",
                              builder => builder.AllowAnyOrigin()
@@ -66,25 +71,22 @@ namespace Expediente_RASE
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                 .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Expediente_RASE", Version = "v1" });
-            });
+            
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors("AllowWbeApp");
+            
             if (env.IsDevelopment())
             {
                 /*app.UseDefaultFiles(new DefaultFilesOptions
                 {
                     DefaultFileNames = new
                         List<string> { "index.html" }
-                });
-                app.UseDeveloperExceptionPage();*/
+                });*/
+                app.UseDeveloperExceptionPage();
                app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Expediente_RASE v1"));
             }
@@ -92,12 +94,12 @@ namespace Expediente_RASE
             app.UseStaticFiles();*/
             //DANIEL 22/11/2021
 
-            app.UseCors("AllowWebApp");
+            //app.UseCors("AllowWebApp");
             app.UseHttpsRedirection();
 
             app.UseRouting();
             //daniel 01/12
-            app.UseAuthentication();
+           // app.UseAuthentication();
 
             app.UseAuthorization();
 
