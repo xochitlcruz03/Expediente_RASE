@@ -5,12 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Expediente_RASE.Models;
-using Microsoft.Extensions.Configuration;
+//using Microsoft.Extensions.Configuration;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Authorization;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Expediente_RASE.Controllers
 {
@@ -20,12 +19,11 @@ namespace Expediente_RASE.Controllers
     public class pruebaController : ControllerBase
     {
         //xochitl 
-        private readonly IConfiguration _configuration;
+        //private readonly IConfiguration _configuration;
         private ApplicationDbContext oContext;
-        public pruebaController(ApplicationDbContext context, IConfiguration configuration) //Inyeccion de una dependencia
+        public pruebaController(ApplicationDbContext context) //Inyeccion de una dependencia
         {
             this.oContext = context;
-            _configuration = configuration;
         }
        /* [HttpPost]
         public async Task<ActionResult> Post(T_USUARIOS t_USUARIOS )
@@ -46,7 +44,7 @@ namespace Expediente_RASE.Controllers
        */
         // GET: api/<pruebaController>
         [HttpGet]
-        public async Task<ActionResult<List<TUSUARIOS>>> Get()
+        public async Task<ActionResult<List<T_USUARIOS>>> Get()
         {
             return await oContext.TUSUARIO1.ToListAsync();
         }
