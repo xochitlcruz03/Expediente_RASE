@@ -35,7 +35,7 @@ namespace Expediente_RASE
             //xochitl
             services.AddControllers();
             //Agregamos un servicio de Tipo ApplicationDbContext
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<Models.RASE_DBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Sucursal1")));
             
             services.AddSwaggerGen(c =>
