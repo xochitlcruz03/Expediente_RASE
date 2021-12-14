@@ -10,6 +10,7 @@ using System.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Authorization;
 using System.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace Expediente_RASE.Controllers
 {
@@ -21,10 +22,14 @@ namespace Expediente_RASE.Controllers
         //xochitl 
         //private readonly IConfiguration _configuration;
         private Models.RASE_DBContext oContext;
-        public pruebaController(Models.RASE_DBContext context) //Inyeccion de una dependencia
+        private readonly string _connectionString;
+
+        public pruebaController(Models.RASE_DBContext context, IConfiguration configuration) //Inyeccion de una dependencia
         {
             this.oContext = context;
+            _connectionString = configuration.GetConnectionString("defaultConnection");
         }
+        
         [HttpPost]
         public async Task<ActionResult> Post(TUsuario usuario)
         {
@@ -50,16 +55,17 @@ namespace Expediente_RASE.Controllers
         }
 
         [HttpGet]
-         public JsonResult Getsql()
+         public async Task<ActionResult<List<TUsuario>>> Getsql()
          {
-             string query = @"
+            
+            string query = @" 
                  select * from T_USUARIOS";
              DataTable table = new DataTable();
-            string sqlDataSource = "Data Source=186.96.165.239;Initial Catalog=RASE_DB; User ID=sa;Password=Aurum2101; encrypt=true; trustServerCertificate=true";
+            string sqlDataSource = _connectionString;
         SqlDataReader myReader;
              using (SqlConnection myCon = new SqlConnection(sqlDataSource)){
                  myCon.Open();
-                 using (SqlCommand myCommand = new SqlCommand (query, myCon))
+                 using (SqlCommand myCommand = new SqlCommand ("CONSULTA_USUARIOS", myCon))
                  {
                      myReader = myCommand.ExecuteReader();
                      table.Load(myReader); 
@@ -67,7 +73,7 @@ namespace Expediente_RASE.Controllers
                      myCon.Close();
                  }
              }
-             return new JsonResult(table);
+            return await oContext.TUsuarios.ToList();
          }
 
 
