@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Expediente_RASE.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(noplisnoApplicationDbContext))]
     [Migration("20211110035405_Usuarios")]
     partial class Usuarios
     {

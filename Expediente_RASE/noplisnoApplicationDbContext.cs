@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 namespace Expediente_RASE
 {
     //Xochitl Cruz
-    public class ApplicationDbContext : DbContext
+    public class noplisnoApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options)
+        public noplisnoApplicationDbContext(DbContextOptions options) : base(options)
         {
+
         }
 
-        //public DbSet<T_USUARIOS> TUSUARIO1 { get; set; }
+        public DbSet<TUsuario> TUSUARIO1 { get; set; }
     }
 }

@@ -37,8 +37,8 @@ namespace Expediente_RASE.Models
         public virtual DbSet<TratActivo> TratActivos { get; set; }
        
         private readonly IConfiguration _configuration;
-        private ApplicationDbContext oContext;
-        public RASE_DBContext(ApplicationDbContext context, IConfiguration configuration) //Inyeccion de una dependencia
+        private noplisnoApplicationDbContext oContext;
+        public RASE_DBContext(noplisnoApplicationDbContext context, IConfiguration configuration) //Inyeccion de una dependencia
         {
             this.oContext = context;
             _configuration = configuration;
