@@ -33,15 +33,17 @@ namespace Expediente_RASE
         public void ConfigureServices(IServiceCollection services)
         {
             //xochitl
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddControllers();
             //Agregamos un servicio de Tipo ApplicationDbContext
             services.AddDbContext<Models.RASE_DBContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("CadConexionSQLServ")));
+                options.UseSqlServer(Configuration.GetConnectionString("Sucursal2")));
             
-            services.AddSwaggerGen(c =>
+            /*services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Expediente_RASE", Version = "v1" });
-            });
+            });*/
             //Lo que pidio Dniel de autenticacion Angular
            /* var jwtSettings = Configuration.GetSection("JwtSettings");
             services.AddAuthentication(opt =>
@@ -68,17 +70,21 @@ namespace Expediente_RASE
                                                .AllowAnyHeader()));
 
             //JSON xochitl
-            services.AddControllersWithViews().AddNewtonsoftJson(options =>
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
-                .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
-            
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft
+                .Json.ReferenceLoopHandling.Ignore)
+                .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
+                = new DefaultContractResolver());
+            services.AddControllers();
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
             if (env.IsDevelopment())
             {
                 /*app.UseDefaultFiles(new DefaultFilesOptions
@@ -87,15 +93,15 @@ namespace Expediente_RASE
                         List<string> { "index.html" }
                 });*/
                 app.UseDeveloperExceptionPage();
-               app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Expediente_RASE v1"));
+              // app.UseSwagger();
+                //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Expediente_RASE v1"));
             }
             /*app.UseDefaultFiles();
             app.UseStaticFiles();*/
             //DANIEL 22/11/2021
 
             //app.UseCors("AllowWebApp");
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
             //daniel 01/12

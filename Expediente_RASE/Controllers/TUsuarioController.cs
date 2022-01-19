@@ -14,20 +14,20 @@ using Microsoft.Extensions.Configuration;
 
 namespace Expediente_RASE.Controllers
 {
-    [Route("api/User")]
+    [Route("api/Usuario")]
    // [Authorize]
     [ApiController]
-    public class TUsuario : ControllerBase
+    public class TUsuarioController : ControllerBase
     {
         //xochitl 
         //private readonly IConfiguration _configuration;
         private Models.RASE_DBContext oContext;
         private readonly string _connectionString;
 
-        public TUsuario(Models.RASE_DBContext context, IConfiguration configuration) //Inyeccion de una dependencia
+        public TUsuarioController(Models.RASE_DBContext context, IConfiguration configuration) //Inyeccion de una dependencia
         {
             this.oContext = context;
-            _connectionString = configuration.GetConnectionString("Sucursal1");
+            _connectionString = configuration.GetConnectionString("Sucursal2");
         }
         
         [HttpPost]
@@ -49,7 +49,7 @@ namespace Expediente_RASE.Controllers
        
         // GET: api/<pruebaController>
         [HttpGet]
-        public async Task<ActionResult<List<Models.TUsuario>>> Get()
+        public async Task<ActionResult<List<TUsuario>>> Get()
         {
             return await oContext.TUsuarios.ToListAsync();
         }
@@ -63,7 +63,7 @@ namespace Expediente_RASE.Controllers
 
         // DELETE api/<pruebaController>/5
         [HttpDelete("{id:int}")]
-        public async Task<ActionResult> Delete(Models.TUsuario usuario, int id)
+        public async Task<ActionResult> Delete(int id)
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
             {
