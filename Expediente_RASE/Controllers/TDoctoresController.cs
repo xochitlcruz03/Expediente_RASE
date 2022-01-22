@@ -65,7 +65,11 @@ namespace Expediente_RASE.Controllers
         [HttpPost]
         public JsonResult Post(TDoctore_POST doctor)
         {
-            string query = @"insert into dbo.T_DOCTORES(ID_DOC,NOM_DOC,AP_PAT_DOC,AP_MAT_DOC,CURP_DOC,REC_DIS,ID_ESP,CORREO_DOC,TEL_DOC,CED_P) values (@ID_DOC,@NOM_DOC,@AP_PAT_DOC,@AP_MAT_DOC,@CURP_DOC,@REC_DIS,@ID_ESP,@CORREO_DOC,@TEL_DOC,@CED_P)";
+            string query = @"
+                            insert into dbo.T_DOCTORES values
+                            ('"+doctor.NomDoc+""+doctor.ApPatDoc+""+doctor.ApMatDoc+ "" + doctor.CurpDoc + "" + doctor.RecDis + "" +
+                            "" + doctor.IdEsp + "" + doctor.CorreoDoc + "" + doctor.TelDoc + "" + doctor.CedP +@"')"//@"insert into dbo.T_DOCTORES(ID_DOC,NOM_DOC,AP_PAT_DOC,AP_MAT_DOC,CURP_DOC,REC_DIS,ID_ESP,CORREO_DOC,TEL_DOC,CED_P) values (@ID_DOC,@NOM_DOC,@AP_PAT_DOC,@AP_MAT_DOC,@CURP_DOC,@REC_DIS,@ID_ESP,@CORREO_DOC,@TEL_DOC,@CED_P)"
+                            ;
             DataTable table = new DataTable();
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(_connectionString))
@@ -73,7 +77,7 @@ namespace Expediente_RASE.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@ID_DOC", doctor.IdDoc);
+                    /**myCommand.Parameters.AddWithValue("@ID_DOC", doctor.IdDoc);
                     myCommand.Parameters.AddWithValue("@NOM_DOC", doctor.NomDoc);
                     myCommand.Parameters.AddWithValue("@AP_PAT_DOC", doctor.ApPatDoc);
                     myCommand.Parameters.AddWithValue("@AP_MAT_DOC", doctor.ApMatDoc);
@@ -82,7 +86,7 @@ namespace Expediente_RASE.Controllers
                     myCommand.Parameters.AddWithValue("@ID_ESP", doctor.IdEsp);
                     myCommand.Parameters.AddWithValue("@CORREO_DOC", doctor.CorreoDoc);
                     myCommand.Parameters.AddWithValue("@TEL_DOC", doctor.TelDoc);
-                    myCommand.Parameters.AddWithValue("@CED_P", doctor.CedP);
+                    myCommand.Parameters.AddWithValue("@CED_P", doctor.CedP);**/
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader); ;
 
