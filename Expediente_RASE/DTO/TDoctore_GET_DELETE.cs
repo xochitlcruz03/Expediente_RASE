@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace Expediente_RASE.DTO
 {
-    public class TDoctore_POST
+    public class TDoctore_GET_DELETE
     {
+        public int IdDoc { get; set; }
         public string NomDoc { get; set; }
         public string ApPatDoc { get; set; }
         public string ApMatDoc { get; set; }

@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Expediente_RASE.Models;
-//using Microsoft.Extensions.Configuration;
-using System.Data;
-using Microsoft.Data.SqlClient;
-using Microsoft.AspNetCore.Authorization;
-using System.Configuration;
 using Microsoft.Extensions.Configuration;
+using AutoMapper;
+using Expediente_RASE.DTO;
+using Expediente_RASE.Utils;
+using Microsoft.EntityFrameworkCore;
 
 namespace Expediente_RASE.Controllers
 {
@@ -22,6 +22,7 @@ namespace Expediente_RASE.Controllers
         //xochitl 
         //private readonly IConfiguration _configuration;
         private Models.RASE_DBContext oContext;
+        private IMapper _mapper;
         private readonly string _connectionString;
 
         public TUsuarioController(Models.RASE_DBContext context, IConfiguration configuration) //Inyeccion de una dependencia
@@ -70,7 +71,7 @@ namespace Expediente_RASE.Controllers
                 using (SqlCommand cmd = new SqlCommand("dbo.ELIIMINA_USUARIO", sql))
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.Parameters.Add(new SqlParameter("@Id", id));
+                    cmd.Parameters.Add(new SqlParameter("@ID_USER", id));
                     await sql.OpenAsync();
                     await cmd.ExecuteNonQueryAsync();
                     return Ok();

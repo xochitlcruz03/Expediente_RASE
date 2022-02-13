@@ -35,7 +35,7 @@ namespace Expediente_RASE.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"
+           string query = @"
                     select NOM_DOC,AP_PAT_DOC,AP_MAT_DOC,TEL_DOC from dbo.T_DOCTORES";
             DataTable table = new DataTable();
             SqlDataReader myReader;
@@ -65,7 +65,7 @@ namespace Expediente_RASE.Controllers
         [HttpPost]
         public JsonResult Post(TDoctore_POST doctor)
         {
-            string query = @"insert into dbo.T_DOCTORES(ID_DOC,NOM_DOC,AP_PAT_DOC,AP_MAT_DOC,CURP_DOC,REC_DIS,ID_ESP,CORREO_DOC,TEL_DOC,CED_P) values (@ID_DOC,@NOM_DOC,@AP_PAT_DOC,@AP_MAT_DOC,@CURP_DOC,@REC_DIS,@ID_ESP,@CORREO_DOC,@TEL_DOC,@CED_P)";
+            string query = @"EXEC AGREGA_DOCTOR @NOM_DOC,@AP_PAT_DOC,@AP_MAT_DOC,@CURP_DOC,@REC_DIS,@ID_ESP,@CORREO_DOC,@TEL_DOC,@CED_P";
             DataTable table = new DataTable();
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(_connectionString))
@@ -73,7 +73,6 @@ namespace Expediente_RASE.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@ID_DOC", doctor.IdDoc);
                     myCommand.Parameters.AddWithValue("@NOM_DOC", doctor.NomDoc);
                     myCommand.Parameters.AddWithValue("@AP_PAT_DOC", doctor.ApPatDoc);
                     myCommand.Parameters.AddWithValue("@AP_MAT_DOC", doctor.ApMatDoc);
