@@ -14,7 +14,7 @@ namespace Expediente_RASE.Models
         public string Duracion { get; set; }
         public string NotasIns { get; set; }
 
-        public virtual TConsultum IdConNavigation { get; set; }
+        public virtual TConsulta IdConNavigation { get; set; }
         public virtual TMedicina IdMedNavigation { get; set; }
     }
 }

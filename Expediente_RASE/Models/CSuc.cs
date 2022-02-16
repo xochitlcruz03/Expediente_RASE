@@ -9,13 +9,13 @@ namespace Expediente_RASE.Models
     {
         public CSuc()
         {
-            TConsulta = new HashSet<TConsultum>();
+            TConsulta = new HashSet<TConsulta>();
         }
 
         public int IdSuc { get; set; }
         public string NomSuc { get; set; }
         public string DirSuc { get; set; }
 
-        public virtual ICollection<TConsultum> TConsulta { get; set; }
+        public virtual ICollection<TConsulta> TConsulta { get; set; }
     }
 }

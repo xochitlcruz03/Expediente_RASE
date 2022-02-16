@@ -9,7 +9,7 @@ namespace Expediente_RASE.Models
     {
         public TDoctore()
         {
-            TConsulta = new HashSet<TConsultum>();
+            TConsulta = new HashSet<TConsulta>();
         }
 
         public int IdDoc { get; set; }
@@ -24,6 +24,6 @@ namespace Expediente_RASE.Models
         public string CedP { get; set; }
 
         public virtual CEsp IdEspNavigation { get; set; }
-        public virtual ICollection<TConsultum> TConsulta { get; set; }
+        public virtual ICollection<TConsulta> TConsulta { get; set; }
     }
 }

@@ -28,7 +28,7 @@ namespace Expediente_RASE.Models
         public virtual DbSet<CAnt> CAnts { get; set; }
         public virtual DbSet<CEsp> CEsps { get; set; }
         public virtual DbSet<CSuc> CSucs { get; set; }
-        public virtual DbSet<TConsultum> TConsulta { get; set; }
+        public virtual DbSet<TConsulta> TConsulta { get; set; }
         public virtual DbSet<TDoctore> TDoctores { get; set; }
         public virtual DbSet<TInsMed> TInsMeds { get; set; }
         public virtual DbSet<TMedicina> TMedicinas { get; set; }
@@ -322,7 +322,7 @@ namespace Expediente_RASE.Models
                     .HasColumnName("NOM_SUC");
             });
 
-            modelBuilder.Entity<TConsultum>(entity =>
+            modelBuilder.Entity<TConsulta>(entity =>
             {
                 entity.HasKey(e => e.IdCon)
                     .HasName("PK__T_CONSUL__2BF968CCB382FC5C");

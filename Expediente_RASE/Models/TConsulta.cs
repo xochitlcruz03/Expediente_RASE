@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Expediente_RASE.Models
 {
-    public partial class TConsultum
+    public partial class TConsulta
     {
         public int IdCon { get; set; }
         public int? IdPac { get; set; }
