@@ -7,6 +7,7 @@ namespace Expediente_RASE.DTO
 {
     public class TDoctore_POST
     {
+       
         public string NomDoc { get; set; }
         public string ApPatDoc { get; set; }
         public string ApMatDoc { get; set; }

@@ -25,28 +25,44 @@ namespace Expediente_RASE.Controllers
         private IMapper _mapper;
         private readonly string _connectionString;
 
-        public TUsuarioController(Models.RASE_DBContext context, IConfiguration configuration) //Inyeccion de una dependencia
+        public TUsuarioController(Models.RASE_DBContext context, IConfiguration configuration, IMapper mapper) //Inyeccion de una dependencia
         {
             this.oContext = context;
             _connectionString = configuration.GetConnectionString("Sucursal2");
+            this._mapper = mapper;
         }
         
         [HttpPost]
-        public async Task<ActionResult> Post(Models.TUsuario usuario)
+        public JsonResult Post(Models.TUsuario usuario)
         {
-            var existeAutor = await oContext.TUsuarios.AnyAsync(a => a.CorreoU == usuario.CorreoU);
+           /* string query = @"EXEC AGREGA_DOCTOR @NOM_DOC,@AP_PAT_DOC,@AP_MAT_DOC,@CURP_DOC,@REC_DIS,@ID_ESP,@CORREO_DOC,@TEL_DOC,@CED_P";
 
-            if (existeAutor)
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
             {
-                return BadRequest($"El correo {usuario.CorreoU} ya pertenece a un usuario");
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@NOM_DOC", doctor.NomDoc);
+                    myCommand.Parameters.AddWithValue("@AP_PAT_DOC", doctor.ApPatDoc);
+                    myCommand.Parameters.AddWithValue("@AP_MAT_DOC", doctor.ApMatDoc);
+                    myCommand.Parameters.AddWithValue("@CURP_DOC", doctor.CurpDoc);
+                    myCommand.Parameters.AddWithValue("@REC_DIS", doctor.RecDis);
+                    myCommand.Parameters.AddWithValue("@ID_ESP", doctor.IdEsp);
+                    myCommand.Parameters.AddWithValue("@CORREO_DOC", doctor.CorreoDoc);
+                    myCommand.Parameters.AddWithValue("@TEL_DOC", doctor.TelDoc);
+                    myCommand.Parameters.AddWithValue("@CED_P", doctor.CedP);
+                    myReader = myCommand.ExecuteReader();
+
+                    myReader.Close();
+                    myCon.Close();
+                }
             }
-            else
-            {
-                this.oContext.Add(usuario);
-                await this.oContext.SaveChangesAsync();
-                return Ok();
-            }
+
+            return new JsonResult("Added Successfully");*/
         }
+
+        
        
         // GET: api/<pruebaController>
         [HttpGet]
@@ -78,6 +94,23 @@ namespace Expediente_RASE.Controllers
                 }
             }
         }
+        /*[HttpPost]
+        [Route("login")]
+        public IActionResult Login(TUsuario login)
+        {
+            var existeAutor = oContext.TUsuarios.AnyAsync(a => a.CorreoU == login.CorreoU);
+            if (existeAutor)
+            {
+                this.oContext.Add(usuario);
+                await this.oContext.SaveChangesAsync();
+                return Ok();
+                            }
+            else
+            {
+                return BadRequest($"El correo {usuario.CorreoU} ya pertenece a un usuario");
+
+            }
+        }*/
 
     }
 }

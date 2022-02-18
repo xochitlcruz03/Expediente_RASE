@@ -35,8 +35,7 @@ namespace Expediente_RASE.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-           string query = @"
-                    select NOM_DOC,AP_PAT_DOC,AP_MAT_DOC,TEL_DOC from dbo.T_DOCTORES";
+           string query = @"EXEC CONSULTA_DOCTORES";
             DataTable table = new DataTable();
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(_connectionString))
@@ -55,18 +54,64 @@ namespace Expediente_RASE.Controllers
             return new JsonResult(table);
         }
         // GET api/medicos/5
-       /* [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{id}")]
+        public JsonResult Get(TDoctore_GET_DELETE doctor)
         {
-            return "value";
-        }*/
+            string query = @"EXEC CONSULTA_DOCTOR";
+            DataTable table = new DataTable();
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@ID_DOC", doctor.IdDoc);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader); ;
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult(table);
+        }
 
         // POST api/medicos
         [HttpPost]
         public JsonResult Post(TDoctore_POST doctor)
         {
             string query = @"EXEC AGREGA_DOCTOR @NOM_DOC,@AP_PAT_DOC,@AP_MAT_DOC,@CURP_DOC,@REC_DIS,@ID_ESP,@CORREO_DOC,@TEL_DOC,@CED_P";
-            DataTable table = new DataTable();
+           
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@NOM_DOC", doctor.NomDoc);
+                    myCommand.Parameters.AddWithValue("@AP_PAT_DOC", doctor.ApPatDoc);
+                    myCommand.Parameters.AddWithValue("@AP_MAT_DOC", doctor.ApMatDoc);
+                    myCommand.Parameters.AddWithValue("@CURP_DOC", doctor.CurpDoc);
+                    myCommand.Parameters.AddWithValue("@REC_DIS", doctor.RecDis);
+                    myCommand.Parameters.AddWithValue("@ID_ESP", doctor.IdEsp);
+                    myCommand.Parameters.AddWithValue("@CORREO_DOC", doctor.CorreoDoc);
+                    myCommand.Parameters.AddWithValue("@TEL_DOC", doctor.TelDoc);
+                    myCommand.Parameters.AddWithValue("@CED_P", doctor.CedP);
+                    myReader = myCommand.ExecuteReader();
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+
+            return new JsonResult("Added Successfully");
+        }
+
+        // PUT api/medicos/5
+        [HttpPut("{id:int}")]
+        public JsonResult Put(TDoctore doctor)
+        {
+            string query = @"EXEC ACTUALIZA_DOCTOR @ID_DOC,@NOM_DOC,@AP_PAT_DOC,@AP_MAT_DOC,@CURP_DOC,@REC_DIS,@ID_ESP,@CORREO_DOC,@TEL_DOC,@CED_P";
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(_connectionString))
             {
@@ -82,46 +127,13 @@ namespace Expediente_RASE.Controllers
                     myCommand.Parameters.AddWithValue("@ID_ESP", doctor.IdEsp);
                     myCommand.Parameters.AddWithValue("@CORREO_DOC", doctor.CorreoDoc);
                     myCommand.Parameters.AddWithValue("@TEL_DOC", doctor.TelDoc);
-                    myCommand.Parameters.AddWithValue("@CED_P", doctor.CedP);**/
+                    myCommand.Parameters.AddWithValue("@CED_P", doctor.CedP);
                     myReader = myCommand.ExecuteReader();
-                    table.Load(myReader); ;
 
                     myReader.Close();
                     myCon.Close();
                 }
             }
-
-            return new JsonResult("Added Successfully");
-        }
-
-        // PUT api/medicos/5
-        [HttpPut("{id:int}")]
-        public JsonResult Put(TDoctore doctor)
-        {
-            string query = @"
-                    update dbo.T_DOCTORES set 
-                    NOM_DOC = '" + doctor.NomDoc +@"'AP_PAT_DOC='"+doctor.ApMatDoc+@"'
-                    AP_MAT_DOC='"+ doctor.ApPatDoc +@"'CURP_DOC='" +doctor.CurpDoc +@"'
-                    REC_DIS = '"+doctor.RecDis +@"'ID_ESP='"+doctor.IdEsp +@"'CORREO_DOC='"+doctor.CorreoDoc+@"'
-                    TEL_DOC ='"+doctor.TelDoc+@"'CED_P='"+doctor.CedP+@"'
-                    where ID_DOC =" + doctor.IdDoc + @"";
-                    
-            DataTable table = new DataTable();
-            SqlDataReader myReader;
-            using (SqlConnection myCon = new SqlConnection(_connectionString))
-            {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(query, myCon))
-                {
-
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader); ;
-
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
-
             return new JsonResult("PUT Successfully");
         }
 
@@ -129,10 +141,7 @@ namespace Expediente_RASE.Controllers
         [HttpDelete("{id:int}")]
         public JsonResult Delete(int id)
         {
-            string query = @"
-                   delete from dbo.T_DOCTORES where ID_DOC =@ID_DOC";
-
-            DataTable table = new DataTable();
+            string query = @"EXEC ELIMINA_DOCTOR @ID_DOC";
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(_connectionString))
             {
@@ -141,8 +150,7 @@ namespace Expediente_RASE.Controllers
                 {
                     myCommand.Parameters.AddWithValue("@ID_DOC", id);
                     myReader = myCommand.ExecuteReader();
-                    table.Load(myReader); ;
-
+                    
                     myReader.Close();
                     myCon.Close();
                 }

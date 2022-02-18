@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,16 @@ namespace Expediente_RASE.Controllers
     [ApiController]
     public class TMedicinaController : ControllerBase
     {
+        private Models.RASE_DBContext oContext;
+        private IMapper _mapper;
+        private readonly string _connectionString;
+
+        public TMedicinaController(Models.RASE_DBContext context, IConfiguration configuration, IMapper mapper) //Inyeccion de una dependencia
+        {
+            this.oContext = context;
+            _connectionString = configuration.GetConnectionString("Sucursal2");
+            this._mapper = mapper;
+        }
         // GET: api/<TMedicinaController>
         [HttpGet]
         public IEnumerable<string> Get()

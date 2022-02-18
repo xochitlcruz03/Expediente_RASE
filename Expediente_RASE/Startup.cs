@@ -17,6 +17,7 @@ using Expediente_RASE.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Serilog;
 
 namespace Expediente_RASE
 {
@@ -45,7 +46,7 @@ namespace Expediente_RASE
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Expediente_RASE", Version = "v1" });
             });*/
             //Lo que pidio Dniel de autenticacion Angular
-           /* var jwtSettings = Configuration.GetSection("JwtSettings");
+            var jwtSettings = Configuration.GetSection("JwtSettings");
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -62,7 +63,7 @@ namespace Expediente_RASE
                     ValidAudience = jwtSettings.GetSection("validAudience").Value,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.GetSection("securityKey").Value))
                 };
-            });*/
+            });
             //DANIEL 22/11/2021
             services.AddCors(options => options.AddPolicy("AllowWebApp",
                              builder => builder.AllowAnyOrigin()
@@ -78,6 +79,8 @@ namespace Expediente_RASE
                 = new DefaultContractResolver());
             services.AddControllers();
 
+          
+             
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -108,6 +111,9 @@ namespace Expediente_RASE
            // app.UseAuthentication();
 
             app.UseAuthorization();
+            app.UseAuthentication();
+
+ 
 
             app.UseEndpoints(endpoints =>
             {
