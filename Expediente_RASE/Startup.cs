@@ -41,12 +41,12 @@ namespace Expediente_RASE
             services.AddDbContext<Models.RASE_DBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Sucursal2")));
             
-            /*services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Expediente_RASE", Version = "v1" });
-            });*/
+            });
             //Lo que pidio Dniel de autenticacion Angular
-            var jwtSettings = Configuration.GetSection("JwtSettings");
+            /*var jwtSettings = Configuration.GetSection("JwtSettings");
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -63,13 +63,12 @@ namespace Expediente_RASE
                     ValidAudience = jwtSettings.GetSection("validAudience").Value,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.GetSection("securityKey").Value))
                 };
-            });
+            });*/
             //DANIEL 22/11/2021
-            services.AddCors(options => options.AddPolicy("AllowWebApp",
-                             builder => builder.AllowAnyOrigin()
-                                               .AllowAnyMethod()
-                                               .AllowAnyHeader()));
-
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            });
             //JSON xochitl
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
@@ -77,8 +76,9 @@ namespace Expediente_RASE
                 .Json.ReferenceLoopHandling.Ignore)
                 .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
                 = new DefaultContractResolver());
+            
             services.AddControllers();
-
+        
           
              
         }
@@ -96,8 +96,8 @@ namespace Expediente_RASE
                         List<string> { "index.html" }
                 });*/
                 app.UseDeveloperExceptionPage();
-              // app.UseSwagger();
-                //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Expediente_RASE v1"));
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Expediente_RASE v1"));
             }
             /*app.UseDefaultFiles();
             app.UseStaticFiles();*/

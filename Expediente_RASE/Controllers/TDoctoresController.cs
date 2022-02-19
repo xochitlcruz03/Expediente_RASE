@@ -44,7 +44,7 @@ namespace Expediente_RASE.Controllers
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
                     myReader = myCommand.ExecuteReader();
-                    table.Load(myReader); ;
+                    table.Load(myReader); 
 
                     myReader.Close();
                     myCon.Close();
@@ -54,8 +54,8 @@ namespace Expediente_RASE.Controllers
             return new JsonResult(table);
         }
         // GET api/medicos/5
-        [HttpGet("{id}")]
-        public JsonResult Get(TDoctore_GET_DELETE doctor)
+        [HttpGet("{id:int}")]
+        public JsonResult GetUno(int id)
         {
             string query = @"EXEC CONSULTA_DOCTOR @ID_DOC";
             DataTable table = new DataTable();
@@ -65,7 +65,7 @@ namespace Expediente_RASE.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@ID_DOC", doctor.IdDoc);
+                    myCommand.Parameters.AddWithValue("@ID_DOC", id);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader); ;
 
