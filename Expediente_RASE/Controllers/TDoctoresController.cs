@@ -57,7 +57,7 @@ namespace Expediente_RASE.Controllers
         [HttpGet("{id}")]
         public JsonResult Get(TDoctore_GET_DELETE doctor)
         {
-            string query = @"EXEC CONSULTA_DOCTOR";
+            string query = @"EXEC CONSULTA_DOCTOR @ID_DOC";
             DataTable table = new DataTable();
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(_connectionString))

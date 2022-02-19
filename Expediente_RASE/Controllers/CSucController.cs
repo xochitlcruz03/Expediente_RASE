@@ -108,7 +108,7 @@ namespace Expediente_RASE.Controllers
         [HttpDelete("{id}")]
         public JsonResult Delete(CSuc suc)
         {
-            string query = @"EXEC ACTUALIZA_CAT_SUC @ID_SUC, @NOM_SUC, @DIR_SUC";
+            string query = @"EXEC ELIMINA_CAT_SUC @ID_SUC";
 
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(_connectionString))
