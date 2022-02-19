@@ -56,7 +56,7 @@ namespace Expediente_RASE.Controllers
         [HttpGet("{id}")]
         public JsonResult Get(TPac pac)
         {
-            string query = @"EXEC CONSULTA_PACIENTE";
+            string query = @"EXEC CONSULTA_PACIENTE @ID_PAC";
             DataTable table = new DataTable();
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(_connectionString))
@@ -114,7 +114,7 @@ namespace Expediente_RASE.Controllers
         [HttpPut("{id}")]
         public JsonResult Put(TPac pac)
         {
-            string query = @"EXEC AGREGA_PACIENTE @ID_PAC,@NOM_PAC,@AP_PAT_PAC,@AP_MAT_PAC,@FEC_NAC_PAC,@SEXO_PAC,@CURP_PAC,@TEL_PAC,@CORREO_PAC,@T_SANGRE_PAC,@EST_CIV_PAC,@OCUPACION_PAC,@NOTAS_PAC,@ARCH_PAC";
+            string query = @"EXEC ACTUALIZA_PACIENTE @ID_PAC,@NOM_PAC,@AP_PAT_PAC,@AP_MAT_PAC,@FEC_NAC_PAC,@SEXO_PAC,@CURP_PAC,@TEL_PAC,@CORREO_PAC,@T_SANGRE_PAC,@EST_CIV_PAC,@OCUPACION_PAC,@NOTAS_PAC,@ARCH_PAC";
 
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(_connectionString))

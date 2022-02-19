@@ -101,13 +101,13 @@ namespace Expediente_RASE.Controllers
 
             return new JsonResult("Deleted Successfully");
         }
-        [HttpGet]
+       /* [HttpGet] aqui debe ir el login
         [Route("login")]
         public IActionResult Login(TUsuario login)
         {
 
             return new JsonResult("Deleted Successfully");
         }
-
+       */
     }
 }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Expediente_RASE.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Medicina")]
     [ApiController]
     public class TMedicinaController : ControllerBase
     {
@@ -48,7 +48,7 @@ namespace Expediente_RASE.Controllers
 
             return new JsonResult(table);
         }
-        [HttpGet]
+        [HttpGet("scroll")]//api/medicina/scroll
         public JsonResult GetScroll()
         {
             string query = @"EXEC CONSULTA_TAB_MED_SCROLL";//NOM_MEDICINA
