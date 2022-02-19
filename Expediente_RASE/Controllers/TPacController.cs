@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Expediente_RASE.DTO;
 using Expediente_RASE.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -78,7 +79,7 @@ namespace Expediente_RASE.Controllers
 
         // POST api/<TPacController>
         [HttpPost]
-        public JsonResult Post(TPac pac)
+        public JsonResult Post(TPac_POST pac)
         {
             string query = @"EXEC AGREGA_PACIENTE @NOM_PAC,@AP_PAT_PAC,@AP_MAT_PAC,@FEC_NAC_PAC,@SEXO_PAC,@CURP_PAC,@TEL_PAC,@CORREO_PAC,@T_SANGRE_PAC,@EST_CIV_PAC,@OCUPACION_PAC,@NOTAS_PAC,@ARCH_PAC";
            
@@ -112,7 +113,7 @@ namespace Expediente_RASE.Controllers
 
         // PUT api/<TPacController>/5
         [HttpPut("{id}")]
-        public JsonResult Put(TPac pac)
+        public JsonResult Put(TPac_PUT_DELETE pac)
         {
             string query = @"EXEC ACTUALIZA_PACIENTE @ID_PAC,@NOM_PAC,@AP_PAT_PAC,@AP_MAT_PAC,@FEC_NAC_PAC,@SEXO_PAC,@CURP_PAC,@TEL_PAC,@CORREO_PAC,@T_SANGRE_PAC,@EST_CIV_PAC,@OCUPACION_PAC,@NOTAS_PAC,@ARCH_PAC";
 

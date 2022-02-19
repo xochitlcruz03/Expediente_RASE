@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Expediente_RASE.DTO;
 using Expediente_RASE.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -60,7 +61,7 @@ namespace Expediente_RASE.Controllers
 
         // POST api/<CSucController>
         [HttpPost]
-        public JsonResult Post(CSuc suc)
+        public JsonResult Post(CSuc_POST suc)
         {
             string query = @"EXEC AGREGA_CAT_SUC @NOM_SUC, @DIR_SUC";
 
@@ -83,7 +84,7 @@ namespace Expediente_RASE.Controllers
 
         // PUT api/<CSucController>/5
         [HttpPut("{id}")]
-        public JsonResult Put(CSuc suc)
+        public JsonResult Put(CSuc_PUT_DELETE suc)
         {
             string query = @"EXEC ACTUALIZA_CAT_SUC @ID_SUC, @NOM_SUC, @DIR_SUC";
 

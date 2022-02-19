@@ -109,7 +109,7 @@ namespace Expediente_RASE.Controllers
 
         // PUT api/medicos/5
         [HttpPut("{id:int}")]
-        public JsonResult Put(TDoctore doctor)
+        public JsonResult Put(TDoctore_GET_DELETE doctor)
         {
             string query = @"EXEC ACTUALIZA_DOCTOR @ID_DOC,@NOM_DOC,@AP_PAT_DOC,@AP_MAT_DOC,@CURP_DOC,@REC_DIS,@ID_ESP,@CORREO_DOC,@TEL_DOC,@CED_P";
             SqlDataReader myReader;
