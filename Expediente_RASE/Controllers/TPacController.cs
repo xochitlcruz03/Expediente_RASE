@@ -32,7 +32,7 @@ namespace Expediente_RASE.Controllers
         }
         // GET: api/<TPacController>
         [HttpGet]//ID_ PAC, NOM_PAC, AP_PAT_PAC, AP_MAT_PAC, EDAD, TEL_PAC, NOTAS_PAC
-        public JsonResult Get()
+        public JsonResult GetListado()
         {
             string query = @"EXEC CONSULTA_PACIENTES";
             DataTable table = new DataTable();
@@ -54,8 +54,8 @@ namespace Expediente_RASE.Controllers
         }
 
         // GET api/<TPacController>/5
-        [HttpGet()]
-        public JsonResult Get(int IdPac)
+        [HttpGet("{id:int}")]
+        public JsonResult Get(int id)
         {
             string query = @"EXEC CONSULTA_PACIENTE @ID_PAC";
             DataTable table = new DataTable();
@@ -65,7 +65,7 @@ namespace Expediente_RASE.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@ID_PAC", IdPac);
+                    myCommand.Parameters.AddWithValue("@ID_PAC", id);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader); ;
 
@@ -112,7 +112,7 @@ namespace Expediente_RASE.Controllers
         }
 
         // PUT api/<TPacController>/5
-        [HttpPut("{id}")]
+        [HttpPut()]
         public JsonResult Put(TPac_PUT_DELETE pac)
         {
             string query = @"EXEC ACTUALIZA_PACIENTE @ID_PAC,@NOM_PAC,@AP_PAT_PAC,@AP_MAT_PAC,@FEC_NAC_PAC,@SEXO_PAC,@CURP_PAC,@TEL_PAC,@CORREO_PAC,@T_SANGRE_PAC,@EST_CIV_PAC,@OCUPACION_PAC,@NOTAS_PAC,@ARCH_PAC";
