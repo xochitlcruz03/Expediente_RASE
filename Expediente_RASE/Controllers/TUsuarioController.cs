@@ -81,7 +81,7 @@ namespace Expediente_RASE.Controllers
 
 
         // DELETE api/<pruebaController>/5
-        [HttpDelete("{id:int}")]
+        [HttpDelete()]
         public JsonResult Delete(int id)
         {
             string query = @"EXEC ELIMINA_USUARIO @ID_USER";

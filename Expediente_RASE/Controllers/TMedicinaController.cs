@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Expediente_RASE.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -69,6 +70,74 @@ namespace Expediente_RASE.Controllers
 
             return new JsonResult(table);
         }
+
+        [HttpPost]
+        public JsonResult Post(TMedicina med)
+        {
+            string query = @"EXEC AGREGA_PACIENTE @NOMB_MED,@DESC_MED";
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@NOMB_MED", med.NomMed);
+                    myCommand.Parameters.AddWithValue("@DESC_MED", med.DescMed);
+                    myReader = myCommand.ExecuteReader();
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Added Successfully");
+        }
+
+        [HttpPut()]
+        public JsonResult Put(TMedicina med)
+        {
+            string query = @"EXEC ACTUALIZA_TAB_MED @ID_MED, @NOMB_MED, @DESC_MED";
+
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+
+                    myCommand.Parameters.AddWithValue("@ID_MED", med.NomMed);
+                    myCommand.Parameters.AddWithValue("@NOMB_MED", med.NomMed);
+                    myCommand.Parameters.AddWithValue("@DESC_MED", med.DescMed);
+                    myReader = myCommand.ExecuteReader();
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("PUT Successfully");
+        }
+
+        [HttpDelete()]
+        public JsonResult Delete(int ID)
+        {
+            string query = @"EXEC ELIMINA_TAB_MED @ID_MED";
+
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+
+                    myCommand.Parameters.AddWithValue("@ID_MED", ID);
+                    myReader = myCommand.ExecuteReader();
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Deleted Successfully");
+        }
+
+
+
 
     }
 }

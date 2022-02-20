@@ -54,8 +54,8 @@ namespace Expediente_RASE.Controllers
         }
 
         // GET api/<TPacController>/5
-        [HttpGet("{id}")]
-        public JsonResult Get(TPac pac)
+        [HttpGet()]
+        public JsonResult Get(int IdPac)
         {
             string query = @"EXEC CONSULTA_PACIENTE @ID_PAC";
             DataTable table = new DataTable();
@@ -65,7 +65,7 @@ namespace Expediente_RASE.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@ID_PAC", pac.IdPac);
+                    myCommand.Parameters.AddWithValue("@ID_PAC", IdPac);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader); ;
 

@@ -83,7 +83,7 @@ namespace Expediente_RASE.Controllers
 
 
         // PUT api/<CSucController>/5
-        [HttpPut("{id}")]
+        [HttpPut()]
         public JsonResult Put(CSuc_PUT_DELETE suc)
         {
             string query = @"EXEC ACTUALIZA_CAT_SUC @ID_SUC, @NOM_SUC, @DIR_SUC";
@@ -105,9 +105,9 @@ namespace Expediente_RASE.Controllers
             return new JsonResult("PUT Successfully");
         }
 
-        // DELETE api/<CSucController>/5
-        [HttpDelete("{id}")]
-        public JsonResult Delete(CSuc suc)
+        // DELETE api/Sucursal/
+        [HttpDelete()]
+        public JsonResult Delete(int ID)
         {
             string query = @"EXEC ELIMINA_CAT_SUC @ID_SUC";
 
@@ -117,7 +117,7 @@ namespace Expediente_RASE.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@ID_SUC", suc.IdSuc);
+                    myCommand.Parameters.AddWithValue("@ID_SUC", ID);
                     myReader = myCommand.ExecuteReader();
                     myReader.Close();
                     myCon.Close();
