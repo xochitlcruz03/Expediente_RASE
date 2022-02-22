@@ -32,7 +32,7 @@ namespace Expediente_RASE.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"EXEC CONSULTA_CAT_ESP";
+            string query = @"EXEC CONSULTA_CAT_ESP";// regresa ID_ESP N_ESP
             DataTable table = new DataTable();
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(_connectionString))
