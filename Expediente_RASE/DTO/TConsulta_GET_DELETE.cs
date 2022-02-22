@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-#nullable disable
-
-namespace Expediente_RASE.Models
+namespace Expediente_RASE.DTO
 {
-    public partial class TConsulta
+    public class TConsulta_GET_DELETE
     {
         public int IdCon { get; set; } // id consulta
         public int? IdPac { get; set; } // id paciente
@@ -24,9 +24,5 @@ namespace Expediente_RASE.Models
         public int? SatOxigeno { get; set; } //saturacion de oxigeno
         public string Motivo { get; set; }  // texto libre
         public string Diagnostico { get; set; } // texto libre
-
-        public virtual TDoctore IdDocNavigation { get; set; }
-        public virtual TPac IdPacNavigation { get; set; }
-        public virtual CSuc IdSucNavigation { get; set; }
     }
 }

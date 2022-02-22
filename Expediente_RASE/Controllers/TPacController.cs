@@ -138,7 +138,6 @@ namespace Expediente_RASE.Controllers
                     myCommand.Parameters.AddWithValue("@NOTAS_PAC", pac.NotasPac);
                     myCommand.Parameters.AddWithValue("@ARCH_PAC", pac.ArchPac);
                     myReader = myCommand.ExecuteReader();
-
                     myReader.Close();
                     myCon.Close();
                 }

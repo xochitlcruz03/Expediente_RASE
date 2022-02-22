@@ -74,7 +74,7 @@ namespace Expediente_RASE.Controllers
         [HttpPost]
         public JsonResult Post(TMedicina med)
         {
-            string query = @"EXEC AGREGA_PACIENTE @NOMB_MED,@DESC_MED";
+            string query = @"EXEC AGREGA_TAB_MED @NOMB_MED,@DESC_MED";
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(_connectionString))
             {
@@ -104,7 +104,7 @@ namespace Expediente_RASE.Controllers
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
 
-                    myCommand.Parameters.AddWithValue("@ID_MED", med.NomMed);
+                    myCommand.Parameters.AddWithValue("@ID_MED", med.IdMed);
                     myCommand.Parameters.AddWithValue("@NOMB_MED", med.NomMed);
                     myCommand.Parameters.AddWithValue("@DESC_MED", med.DescMed);
                     myReader = myCommand.ExecuteReader();
