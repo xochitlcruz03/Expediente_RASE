@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using Expediente_RASE.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Expediente_RASE.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/consulta")]
     [ApiController]
     public class TConsultaController : ControllerBase
     {
@@ -25,35 +28,152 @@ namespace Expediente_RASE.Controllers
             this._mapper = mapper;
         }
         // GET: api/<TConsultaController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        /*[HttpGet("{id:int}")]
+        public JsonResult Get(int id)
         {
-            return new string[] { "value1", "value2" };
-        }
+            string query = @"EXEC CONSULTA_CONS_PACIENTE @ID_CON";
+            DataTable table = new DataTable();
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+
+            return new JsonResult(table);
+        }*/
 
         // GET api/<TConsultaController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public JsonResult GetPaciente(int id)
         {
-            return "value";
+            //CONSULTA_CONS_PACIENTES
+            string query = @"EXEC CONSULTA_CONS_PACIENTES @ID_PAC";
+            DataTable table = new DataTable();
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@ID_PAC", consulta.IdPac);
+
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+
+            return new JsonResult(table);
+
         }
 
         // POST api/<TConsultaController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public JsonResult Post(TConsulta_POST consulta)
         {
+            string query = @"EXEC AGREGA_CONSULTA @ID_PAC,@ID_DOC,@ID_SUC,@FECHA_CON,@ESTATURA,@PESO,@MASA_CORP,@TEMPERATURA,@FREC_RESP,@PRES_ART,@FREC_CAR,@GRASA_CORP,@MASA_MUSC,@SAT_OXIGENO,@MOTIVO,@DIAGNOSTICO";
+
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@ID_PAC", consulta.IdPac);
+                    myCommand.Parameters.AddWithValue("@ID_DOC", consulta.IdDoc);
+                    myCommand.Parameters.AddWithValue("@ID_SUC", consulta.IdSuc);
+                    myCommand.Parameters.AddWithValue("@FECHA_CON", consulta.FechaCon);
+                    myCommand.Parameters.AddWithValue("@ESTATURA", consulta.Estatura);
+                    myCommand.Parameters.AddWithValue("@PESO", consulta.Peso);
+                    myCommand.Parameters.AddWithValue("@MASA_CORP", consulta.MasaCorp);
+                    myCommand.Parameters.AddWithValue("@TEMPERATURA", consulta.Temperatura);
+                    myCommand.Parameters.AddWithValue("@FREC_RESP", consulta.FrecResp);
+                    myCommand.Parameters.AddWithValue("@PRES_ART", consulta.PresArt);
+                    myCommand.Parameters.AddWithValue("@FREC_CAR", consulta.FrecCar);
+                    myCommand.Parameters.AddWithValue("@GRASA_CORP", consulta.GrasaCorp);
+                    myCommand.Parameters.AddWithValue("@MASA_MUSC", consulta.MasaMusc);
+                    myCommand.Parameters.AddWithValue("@SAT_OXIGENO", consulta.SatOxigeno);
+                    myCommand.Parameters.AddWithValue("@MOTIVO", consulta.Motivo);
+                    myCommand.Parameters.AddWithValue("@DIAGNOSTICO", consulta.Diagnostico);
+                    myReader = myCommand.ExecuteReader();
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Added Successfully");
         }
 
+
         // PUT api/<TConsultaController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut()]
+        public JsonResult Put(TConsulta_GET_DELETE consulta)
         {
+            string query = @"EXEC ACTUALIZA_CONSULTA @ID_CON,@ID_PAC,@ID_DOC,@ID_SUC,@FECHA_CON,@ESTATURA,@PESO,@MASA_CORP,@TEMPERATURA,@FREC_RESP,@PRES_ART,@FREC_CAR,@GRASA_CORP,@MASA_MUSC,@SAT_OXIGENO,@MOTIVO,@DIAGNOSTICO";
+
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@ID_CON", consulta.IdPac);
+                    myCommand.Parameters.AddWithValue("@ID_PAC", consulta.IdPac);
+                    myCommand.Parameters.AddWithValue("@ID_DOC", consulta.IdDoc);
+                    myCommand.Parameters.AddWithValue("@ID_SUC", consulta.IdSuc);
+                    myCommand.Parameters.AddWithValue("@FECHA_CON", consulta.FechaCon);
+                    myCommand.Parameters.AddWithValue("@ESTATURA", consulta.Estatura);
+                    myCommand.Parameters.AddWithValue("@PESO", consulta.Peso);
+                    myCommand.Parameters.AddWithValue("@MASA_CORP", consulta.MasaCorp);
+                    myCommand.Parameters.AddWithValue("@TEMPERATURA", consulta.Temperatura);
+                    myCommand.Parameters.AddWithValue("@FREC_RESP", consulta.FrecResp);
+                    myCommand.Parameters.AddWithValue("@PRES_ART", consulta.PresArt);
+                    myCommand.Parameters.AddWithValue("@FREC_CAR", consulta.FrecCar);
+                    myCommand.Parameters.AddWithValue("@GRASA_CORP", consulta.GrasaCorp);
+                    myCommand.Parameters.AddWithValue("@MASA_MUSC", consulta.MasaMusc);
+                    myCommand.Parameters.AddWithValue("@SAT_OXIGENO", consulta.SatOxigeno);
+                    myCommand.Parameters.AddWithValue("@MOTIVO", consulta.Motivo);
+                    myCommand.Parameters.AddWithValue("@DIAGNOSTICO", consulta.Diagnostico);
+                    myReader = myCommand.ExecuteReader();
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("PUT Successfully");
         }
+
 
         // DELETE api/<TConsultaController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public JsonResult Delete(int id)
         {
+            string query = @"EXEC ELIMINA_CONS @ID_CON";
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                   myCommand.Parameters.AddWithValue("@ID_CON", id);
+                    myReader = myCommand.ExecuteReader();
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+
+            return new JsonResult("Deleted Successfully");
         }
     }
 }

@@ -31,7 +31,7 @@ namespace Expediente_RASE.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"EXEC CONSULTA_TAB_MED";//NOM_MEDICINA, DESCRIPCION
+            string query = @"EXEC CONSULTA_TAB_MED";//NOM_MEDICINA, ((DESCRIPCION
             DataTable table = new DataTable();
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(_connectionString))
@@ -42,7 +42,7 @@ namespace Expediente_RASE.Controllers
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader); 
 
-                    myReader.Close();
+                    myReader.Close(); 
                     myCon.Close();
                 }
             }
