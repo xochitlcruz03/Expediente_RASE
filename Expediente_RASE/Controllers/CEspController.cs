@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Expediente_RASE.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -52,20 +53,44 @@ namespace Expediente_RASE.Controllers
         
         // POST api/<ValuesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public JsonResult Post(CEsp esp)
         {
-        }
+            string query = @"EXEC AGREGA_CAT_ESP @N_ESP";
 
-        // PUT api/<ValuesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@N_ESP", esp.NEsp);
+                    myReader = myCommand.ExecuteReader();
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Added Successfully");
         }
 
         // DELETE api/<ValuesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete()]
+        public JsonResult Delete(int id)
         {
+            string query = @"EXEC ELIMINA_CAT_ESP @ID_ESP";
+
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@ID_ESP", id);
+                    myReader = myCommand.ExecuteReader();
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Deleted Successfully");
         }
     }
 }
