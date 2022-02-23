@@ -63,7 +63,7 @@ namespace Expediente_RASE.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@ID_PAC", consulta.IdPac);
+                    myCommand.Parameters.AddWithValue("@ID_PAC", id);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -127,7 +127,7 @@ namespace Expediente_RASE.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@ID_CON", consulta.IdPac);
+                    myCommand.Parameters.AddWithValue("@ID_CON", consulta.IdCon);
                     myCommand.Parameters.AddWithValue("@ID_PAC", consulta.IdPac);
                     myCommand.Parameters.AddWithValue("@ID_DOC", consulta.IdDoc);
                     myCommand.Parameters.AddWithValue("@ID_SUC", consulta.IdSuc);
