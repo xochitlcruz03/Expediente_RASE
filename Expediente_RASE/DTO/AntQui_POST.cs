@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-#nullable disable
-
-namespace Expediente_RASE.Models
+namespace Expediente_RASE.DTO
 {
-    public partial class AntQui
+    public class AntQui_POST
     {
         public int? IdPac { get; set; }
-        public string RegQui { get; set; } //cirugia
+        public string RegQui { get; set; } //cirugia si o no, un 0-1, 
         public int? EdadQ { get; set; } //edad
         public string TipoQ { get; set; } //tipo
 
-        public virtual TPac IdPacNavigation { get; set; }
     }
 }
