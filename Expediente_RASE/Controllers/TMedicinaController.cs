@@ -115,8 +115,8 @@ namespace Expediente_RASE.Controllers
             return new JsonResult("PUT Successfully");
         }
 
-        [HttpDelete()]
-        public JsonResult Delete(int ID)
+        [HttpDelete("{id}")]
+        public JsonResult Delete(int id)
         {
             string query = @"EXEC ELIMINA_TAB_MED @ID_MED";
 
@@ -127,7 +127,7 @@ namespace Expediente_RASE.Controllers
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
 
-                    myCommand.Parameters.AddWithValue("@ID_MED", ID);
+                    myCommand.Parameters.AddWithValue("@ID_MED", id);
                     myReader = myCommand.ExecuteReader();
                     myReader.Close();
                     myCon.Close();

@@ -28,10 +28,10 @@ namespace Expediente_RASE.Controllers
             this._mapper = mapper;
         }
         // GET: api/<TConsultaController>
-        /*[HttpGet("{id:int}")]
-        public JsonResult Get(int id)
+        [HttpGet]
+        public JsonResult Get()
         {
-            string query = @"EXEC CONSULTA_CONS_PACIENTE @ID_CON";
+            string query = @"EXEC CONSULTA_CONS_PACIENTE";//ID_PAC,PAC_NOM, AP_PAT_PAC, AP_MAT_PAC, DOC_NOM, DOC_AP_PAT, DOC_AP_MAT, NOM_SUC, FECHA_CON, MOTIVO, DIAGNOSTICO
             DataTable table = new DataTable();
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(_connectionString))
@@ -41,14 +41,12 @@ namespace Expediente_RASE.Controllers
                 {
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
-
                     myReader.Close();
                     myCon.Close();
                 }
             }
-
             return new JsonResult(table);
-        }*/
+        }
 
         // GET api/<TConsultaController>/5
         [HttpGet("{id}")]
