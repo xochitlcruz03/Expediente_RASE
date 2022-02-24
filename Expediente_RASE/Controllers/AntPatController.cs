@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Expediente_RASE.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Antpat")]
     [ApiController]
     public class AntPatController : ControllerBase
     {
@@ -80,14 +80,31 @@ namespace Expediente_RASE.Controllers
 
         // PUT api/<AntPatController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public JsonResult Put(AntPat_POST antp,int id)
         {
+            string query = @"EXEC ACTUALIZA_ANT_PATOLOGICO @ID_PAC, @ID_ANT, @REG_PAT, @AN_PAT";//DEVUELVE NOM_SUC DIR_SUC
+            DataTable table = new DataTable();
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@ID_PAC", id);
+                    myCommand.Parameters.AddWithValue("@ID_ANT", antp.IdAnt);
+                    myCommand.Parameters.AddWithValue("@REG_PAT", antp.RegPat);
+                    myCommand.Parameters.AddWithValue("@AN_PAT", antp.AnPat);
+
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Added Successfully");
         }
 
-        // DELETE api/<AntPatController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+
     }
 }

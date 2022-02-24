@@ -1,7 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Expediente_RASE.DTO;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,79 +14,92 @@ namespace Expediente_RASE.Controllers
 {
     public class AntAlerController : Controller
     {
-        // GET: AntAlerController
-        public ActionResult Index()
+        private Models.RASE_DBContext oContext;
+        private IMapper _mapper;
+        private readonly string _connectionString;
+
+        public AntAlerController(Models.RASE_DBContext context, IConfiguration configuration, IMapper mapper) //Inyeccion de una dependencia
         {
-            return View();
+            this.oContext = context;
+            _connectionString = configuration.GetConnectionString("Sucursal2");
+            this._mapper = mapper;
+        }
+        // GET: api/<AntPatController>
+        [HttpGet("{id}")]
+        public JsonResult Get(int id)
+        {
+            string query = @"EXEC CONSULTA_ANT_PATOLOGICO @ID_PAC";//DEVUELVE NOM_SUC DIR_SUC
+            DataTable table = new DataTable();
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@ID_PAC", id);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult(table);
         }
 
-        // GET: AntAlerController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
 
-        // GET: AntAlerController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: AntAlerController/Create
+        // POST api/<AntPatController>
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public JsonResult Post(AntPat_POST antp)
         {
-            try
+            string query = @"EXEC AGREGA_ANT_PATOLOGICO @ID_PAC, @ID_ANT, @REG_PAT, @AN_PAT";//DEVUELVE NOM_SUC DIR_SUC
+            DataTable table = new DataTable();
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
             {
-                return RedirectToAction(nameof(Index));
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@ID_PAC", antp.IdPac);
+                    myCommand.Parameters.AddWithValue("@ID_ANT", antp.IdAnt);
+                    myCommand.Parameters.AddWithValue("@REG_PAT", antp.RegPat);
+                    myCommand.Parameters.AddWithValue("@AN_PAT", antp.AnPat);
+
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+
+                    myReader.Close();
+                    myCon.Close();
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return new JsonResult("Added Successfully");
         }
 
-        // GET: AntAlerController/Edit/5
-        public ActionResult Edit(int id)
+        // PUT api/<AntPatController>/5
+        [HttpPut("{id}")]
+        public JsonResult Put(AntPat_POST antp, int id)
         {
-            return View();
-        }
+            string query = @"EXEC ACTUALIZA_ANT_PATOLOGICO @ID_PAC, @ID_ANT, @REG_PAT, @AN_PAT";//DEVUELVE NOM_SUC DIR_SUC
+            DataTable table = new DataTable();
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@ID_PAC", id);
+                    myCommand.Parameters.AddWithValue("@ID_ANT", antp.IdAnt);
+                    myCommand.Parameters.AddWithValue("@REG_PAT", antp.RegPat);
+                    myCommand.Parameters.AddWithValue("@AN_PAT", antp.AnPat);
 
-        // POST: AntAlerController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
 
-        // GET: AntAlerController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: AntAlerController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
+                    myReader.Close();
+                    myCon.Close();
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return new JsonResult("Added Successfully");
         }
     }
 }
