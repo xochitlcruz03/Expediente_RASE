@@ -22,9 +22,6 @@ namespace Expediente_RASE.Utils
             CreateMap<TPac, TPac_POST>().ReverseMap();//mapea desde Autor hacia AutorDTO y viceversa
             CreateMap<TPac_POST, TPac>();//mapea desde AutorCreacionDTO hacia Autor
 
-            CreateMap<TPac, TPac_PUT_DELETE>().ReverseMap();//mapea desde Autor hacia AutorDTO y viceversa
-            CreateMap<TPac_PUT_DELETE, TPac>();
-
             CreateMap<CSuc, CSuc_POST>().ReverseMap();//mapea desde Autor hacia AutorDTO y viceversa
             CreateMap<CSuc_POST, CSuc>();//mapea desde AutorCreacionDTO hacia Autor
 

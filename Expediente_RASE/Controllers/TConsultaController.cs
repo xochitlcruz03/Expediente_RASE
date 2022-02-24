@@ -114,8 +114,8 @@ namespace Expediente_RASE.Controllers
 
 
         // PUT api/<TConsultaController>/5
-        [HttpPut()]
-        public JsonResult Put(TConsulta_GET_DELETE consulta)
+        [HttpPut("{id}")]
+        public JsonResult Put(TConsulta_GET_DELETE consulta, int id)
         {
             string query = @"EXEC ACTUALIZA_CONSULTA @ID_CON,@ID_PAC,@ID_DOC,@ID_SUC,@FECHA_CON,@ESTATURA,@PESO,@MASA_CORP,@TEMPERATURA,@FREC_RESP,@PRES_ART,@FREC_CAR,@GRASA_CORP,@MASA_MUSC,@SAT_OXIGENO,@MOTIVO,@DIAGNOSTICO";
 
@@ -125,7 +125,7 @@ namespace Expediente_RASE.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@ID_CON", consulta.IdCon);
+                    myCommand.Parameters.AddWithValue("@ID_CON", id);
                     myCommand.Parameters.AddWithValue("@ID_PAC", consulta.IdPac);
                     myCommand.Parameters.AddWithValue("@ID_DOC", consulta.IdDoc);
                     myCommand.Parameters.AddWithValue("@ID_SUC", consulta.IdSuc);

@@ -54,8 +54,30 @@ namespace Expediente_RASE.Controllers
             return new JsonResult("Added Successfully");
         }
 
-        
-       
+        [HttpPut("{id}")]
+        public JsonResult Put(TUsuario usuario, int id)
+        {
+            string query = @"EXEC AGREGA_USUARIO @CORREO_U,@CONTRA_U,@CARGO_U";
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand cmd = new SqlCommand(query, myCon))
+                {
+                    cmd.Parameters.AddWithValue("@ID_USER", id);
+                    cmd.Parameters.AddWithValue("@CORREO_U", usuario.CorreoU);
+                    cmd.Parameters.AddWithValue("@CONTRA_U", usuario.ContraU);
+                    cmd.Parameters.AddWithValue("@CARGO_U", usuario.CargoU);
+                    myReader = cmd.ExecuteReader();
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Added Successfully");
+        }
+
+
         // GET: api/<pruebaController>
         [HttpGet]
         public JsonResult Get()

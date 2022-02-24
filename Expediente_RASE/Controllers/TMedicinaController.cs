@@ -40,9 +40,9 @@ namespace Expediente_RASE.Controllers
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
                     myReader = myCommand.ExecuteReader();
-                    table.Load(myReader); 
+                    table.Load(myReader);
 
-                    myReader.Close(); 
+                    myReader.Close();
                     myCon.Close();
                 }
             }
@@ -92,8 +92,8 @@ namespace Expediente_RASE.Controllers
             return new JsonResult("Added Successfully");
         }
 
-        [HttpPut()]
-        public JsonResult Put(TMedicina med)
+        [HttpPut("{id}")]
+        public JsonResult Put(TMedicina med, int id)
         {
             string query = @"EXEC ACTUALIZA_TAB_MED @ID_MED, @NOMB_MED, @DESC_MED";
 
@@ -104,7 +104,7 @@ namespace Expediente_RASE.Controllers
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
 
-                    myCommand.Parameters.AddWithValue("@ID_MED", med.IdMed);
+                    myCommand.Parameters.AddWithValue("@ID_MED", id);
                     myCommand.Parameters.AddWithValue("@NOMB_MED", med.NomMed);
                     myCommand.Parameters.AddWithValue("@DESC_MED", med.DescMed);
                     myReader = myCommand.ExecuteReader();

@@ -112,8 +112,8 @@ namespace Expediente_RASE.Controllers
         }
 
         // PUT api/<TPacController>/5
-        [HttpPut()]
-        public JsonResult Put(TPac_PUT_DELETE pac)
+        [HttpPut("{id}")]
+        public JsonResult Put(TPac_POST pac, int id)
         {
             string query = @"EXEC ACTUALIZA_PACIENTE @ID_PAC,@NOM_PAC,@AP_PAT_PAC,@AP_MAT_PAC,@FEC_NAC_PAC,@SEXO_PAC,@CURP_PAC,@TEL_PAC,@CORREO_PAC,@T_SANGRE_PAC,@EST_CIV_PAC,@OCUPACION_PAC,@NOTAS_PAC,@ARCH_PAC";
 
@@ -123,7 +123,7 @@ namespace Expediente_RASE.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@ID_PAC", pac.IdPac);
+                    myCommand.Parameters.AddWithValue("@ID_PAC", id);
                     myCommand.Parameters.AddWithValue("@NOM_PAC", pac.NomPac);
                     myCommand.Parameters.AddWithValue("@AP_PAT_PAC", pac.ApPatPac);
                     myCommand.Parameters.AddWithValue("@AP_MAT_PAC", pac.ApMatPac);

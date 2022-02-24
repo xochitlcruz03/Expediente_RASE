@@ -108,8 +108,8 @@ namespace Expediente_RASE.Controllers
         }
 
         // PUT api/medicos/5
-        [HttpPut()]
-        public JsonResult Put(TDoctore_GET_DELETE doctor)
+        [HttpPut("{id}")]
+        public JsonResult Put(TDoctore_POST doctor,int id)
         {
             string query = @"EXEC ACTUALIZA_DOCTOR @ID_DOC,@NOM_DOC,@AP_PAT_DOC,@AP_MAT_DOC,@CURP_DOC,@REC_DIS,@ID_ESP,@CORREO_DOC,@TEL_DOC,@CED_P";
             SqlDataReader myReader;
@@ -118,7 +118,7 @@ namespace Expediente_RASE.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@ID_DOC", doctor.IdDoc);
+                    myCommand.Parameters.AddWithValue("@ID_DOC", id);
                     myCommand.Parameters.AddWithValue("@NOM_DOC", doctor.NomDoc);
                     myCommand.Parameters.AddWithValue("@AP_PAT_DOC", doctor.ApPatDoc);
                     myCommand.Parameters.AddWithValue("@AP_MAT_DOC", doctor.ApMatDoc);
