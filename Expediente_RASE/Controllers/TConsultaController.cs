@@ -115,7 +115,7 @@ namespace Expediente_RASE.Controllers
 
         // PUT api/<TConsultaController>/5
         [HttpPut("{id}")]
-        public JsonResult Put(TConsulta_GET_DELETE consulta, int id)
+        public JsonResult Put(TConsulta_POST consulta, int id)
         {
             string query = @"EXEC ACTUALIZA_CONSULTA @ID_CON,@ID_PAC,@ID_DOC,@ID_SUC,@FECHA_CON,@ESTATURA,@PESO,@MASA_CORP,@TEMPERATURA,@FREC_RESP,@PRES_ART,@FREC_CAR,@GRASA_CORP,@MASA_MUSC,@SAT_OXIGENO,@MOTIVO,@DIAGNOSTICO";
 

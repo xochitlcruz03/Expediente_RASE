@@ -76,7 +76,7 @@ namespace Expediente_RASE.Controllers
 
         // PUT api/<CSucController>/5
         [HttpPut("{id}")]
-        public JsonResult Put(CSuc_PUT_DELETE suc, int id)
+        public JsonResult Put(CSuc_POST suc, int id)
         {
             string query = @"EXEC ACTUALIZA_CAT_SUC @ID_SUC, @NOM_SUC, @DIR_SUC";
 
