@@ -29,10 +29,11 @@ namespace Expediente_RASE.Controllers
         }
         
         // GET: api/<ValuesController>
-        [HttpGet]
-        public JsonResult Get()
+        [HttpGet()]
+       
+        public JsonResult Getlista()
         {
-            string query = @"EXEC CONSULTA_CAT_ESP";// regresa ID_ESP N_ESP
+            string query = @"EXEC CONSULTA_CAT_ESP2";// regresa ID_ESP N_ESP
             DataTable table = new DataTable();
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(_connectionString))
@@ -50,7 +51,6 @@ namespace Expediente_RASE.Controllers
             return new JsonResult(table);
         }
 
-        
         // POST api/<ValuesController>
         [HttpPost]
         public JsonResult Post(CEsp esp)
