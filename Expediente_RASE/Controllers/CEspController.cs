@@ -73,7 +73,7 @@ namespace Expediente_RASE.Controllers
         }
 
         // DELETE api/<ValuesController>/5
-        [HttpDelete()]
+        [HttpDelete("{id}")]
         public JsonResult Delete(int id)
         {
             string query = @"EXEC ELIMINA_CAT_ESP @ID_ESP";

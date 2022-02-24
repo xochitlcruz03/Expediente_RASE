@@ -138,7 +138,7 @@ namespace Expediente_RASE.Controllers
         }
 
         // DELETE api/medicos/5
-        [HttpDelete()]
+        [HttpDelete("{id}")]
         public JsonResult Delete(int id)
         {
             string query = @"EXEC ELIMINA_DOCTOR @ID_DOC";
