@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Serilog;
+using Expediente_RASE.DTO;
 
 namespace Expediente_RASE
 {
@@ -35,7 +36,7 @@ namespace Expediente_RASE
         {
             //xochitl
             services.AddAutoMapper(typeof(Startup));
-
+            services.AddScoped<JwtHandler>();
             services.AddControllers();
             //Agregamos un servicio de Tipo ApplicationDbContext
             services.AddDbContext<Models.RASE_DBContext>(options =>
@@ -46,24 +47,29 @@ namespace Expediente_RASE
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Expediente_RASE", Version = "v1" });
             });
             //Lo que pidio Dniel de autenticacion Angular
-            /*var jwtSettings = Configuration.GetSection("JwtSettings");
+            var jwtSettings = Configuration.GetSection("JwtSettings");
+            var key = Encoding.UTF8.GetBytes(jwtSettings.GetSection("securityKey").Value);
+            
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
-                options.TokenValidationParameters = new TokenValidationParameters
+                  options.RequireHttpsMetadata = false;
+                  options.SaveToken = false;    
+                  options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwtSettings.GetSection("validIssuer").Value,
-                    ValidAudience = jwtSettings.GetSection("validAudience").Value,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.GetSection("securityKey").Value))
-                };
-            });*/
+                      ValidateIssuer = true,
+                      ValidateAudience = true,
+                      ValidateLifetime = true,
+                      ValidateIssuerSigningKey = true,
+                      ValidIssuer = jwtSettings.GetSection("validIssuer").Value,
+                      ValidAudience = jwtSettings.GetSection("validAudience").Value,
+                      IssuerSigningKey = new SymmetricSecurityKey(key)
+                  };
+            });
             //DANIEL 22/11/2021
             services.AddCors(c =>
             {
@@ -103,12 +109,17 @@ namespace Expediente_RASE
             app.UseStaticFiles();*/
             //DANIEL 22/11/2021
 
-            //app.UseCors("AllowWebApp");
+            app.UseCors(builder =>
+            builder.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+
+            );
             //app.UseHttpsRedirection();
 
             app.UseRouting();
             //daniel 01/12
-           // app.UseAuthentication();
+         
 
             app.UseAuthorization();
             app.UseAuthentication();

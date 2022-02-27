@@ -11,11 +11,19 @@ using AutoMapper;
 using Expediente_RASE.DTO;
 using Expediente_RASE.Utils;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Options;
+using System.Text;
+using Microsoft.AspNetCore.Identity;
+using WebAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Expediente_RASE.Controllers
 {
     [Route("api/Usuario")]
-   // [Authorize]
+
     [ApiController]
     public class TUsuarioController : ControllerBase
     {
@@ -24,12 +32,17 @@ namespace Expediente_RASE.Controllers
         private Models.RASE_DBContext oContext;
         private IMapper _mapper;
         private readonly string _connectionString;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly JwtHandler _jwtHandler;
 
-        public TUsuarioController(Models.RASE_DBContext context, IConfiguration configuration, IMapper mapper) //Inyeccion de una dependencia
+
+        public TUsuarioController(Models.RASE_DBContext context, IConfiguration configuration, IMapper mapper, JwtHandler jwtHandler, UserManager<IdentityUser> userManager) //Inyeccion de una dependencia
         {
             this.oContext = context;
             _connectionString = configuration.GetConnectionString("Sucursal2");
             this._mapper = mapper;
+            _userManager = userManager;
+            _jwtHandler = jwtHandler;
         }
         
         [HttpPost]
@@ -123,13 +136,18 @@ namespace Expediente_RASE.Controllers
 
             return new JsonResult("Deleted Successfully");
         }
-       /* [HttpGet] aqui debe ir el login
-        [Route("login")]
-        public IActionResult Login(TUsuario login)
+        
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login2(TUsuario model)
         {
-
-            return new JsonResult("Deleted Successfully");
+            var user = await _userManager.FindByNameAsync(model.CorreoU);
+            if (user == null || !await _userManager.CheckPasswordAsync(user, model.ContraU))
+                return Unauthorized(new Response { ErrorMessage = "Invalid Authentication" });
+            var signingCredentials = _jwtHandler.GetSigningCredentials();
+            var claims = _jwtHandler.GetClaims(user);
+            var tokenOptions = _jwtHandler.GenerateTokenOptions(signingCredentials, claims);
+            var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+            return Ok(new Response { IsAuthSuccessful = true, Token = token }); 
         }
-       */
     }
 }
