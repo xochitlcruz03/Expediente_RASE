@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Expediente_RASE.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Anther")]
     [ApiController]
     public class AntHerController : ControllerBase
     {
@@ -31,7 +31,7 @@ namespace Expediente_RASE.Controllers
         [HttpGet("{id}")]
         public JsonResult Get(int id)
         {
-            string query = @"EXEC CONSULTA_ANT_NO_PATOLOGICO @ID_PAC";//DEVUELVE NOM_SUC DIR_SUC
+            string query = @"EXEC CONSULTA_ANT_HEREDOFAM @ID_PAC";//DEVUELVE N_ANT, REGISTRO, NOTAS
             DataTable table = new DataTable();
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(_connectionString))
@@ -53,9 +53,9 @@ namespace Expediente_RASE.Controllers
 
         // POST api/<AntPatController>
         [HttpPost]
-        public JsonResult Post(AntNoPat_POST antp)
+        public JsonResult Post(AntHer_POST antp)
         {
-            string query = @"EXEC AGREGA_ANT_NO_PATOLOGICO @ID_PAC, @ID_ANT, @REG_PAT, @AN_PAT";//DEVUELVE NOM_SUC DIR_SUC
+            string query = @"EXEC AGREGA_ANT_HEREDOFAM @ID_PAC, @ID_ANT, @REG_HER, @AN_HER";//DEVUELVE NOM_SUC DIR_SUC
             DataTable table = new DataTable();
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(_connectionString))
@@ -65,8 +65,8 @@ namespace Expediente_RASE.Controllers
                 {
                     myCommand.Parameters.AddWithValue("@ID_PAC", antp.IdPac);
                     myCommand.Parameters.AddWithValue("@ID_ANT", antp.IdAnt);
-                    myCommand.Parameters.AddWithValue("@REG_PAT", antp.RegNPat);
-                    myCommand.Parameters.AddWithValue("@AN_PAT", antp.AnNPat);
+                    myCommand.Parameters.AddWithValue("@REG_HER", antp.RegHer);
+                    myCommand.Parameters.AddWithValue("@AN_HER", antp.AnHer);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -80,9 +80,9 @@ namespace Expediente_RASE.Controllers
 
         // PUT api/<AntPatController>/5
         [HttpPut("{id}")]
-        public JsonResult Put(AntPat_POST antp, int id)
+        public JsonResult Put(AntHer_POST antp, int id)
         {
-            string query = @"EXEC ACTUALIZA_ANT_NO_PATOLOGICO @ID_PAC, @ID_ANT, @REG_PAT, @AN_PAT";//DEVUELVE NOM_SUC DIR_SUC
+            string query = @"EXEC ACTUALIZA_ANT_HEREDOFAM @ID_PAC, @ID_ANT, @REG_PAT, @AN_PAT";//DEVUELVE NOM_SUC DIR_SUC
             DataTable table = new DataTable();
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(_connectionString))
@@ -92,8 +92,8 @@ namespace Expediente_RASE.Controllers
                 {
                     myCommand.Parameters.AddWithValue("@ID_PAC", id);
                     myCommand.Parameters.AddWithValue("@ID_ANT", antp.IdAnt);
-                    myCommand.Parameters.AddWithValue("@REG_PAT", antp.RegPat);
-                    myCommand.Parameters.AddWithValue("@AN_PAT", antp.AnPat);
+                    myCommand.Parameters.AddWithValue("@REG_PAT", antp.RegHer);
+                    myCommand.Parameters.AddWithValue("@AN_PAT", antp.AnHer);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);

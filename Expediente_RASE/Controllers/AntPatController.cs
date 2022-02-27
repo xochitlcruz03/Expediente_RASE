@@ -31,7 +31,7 @@ namespace Expediente_RASE.Controllers
         [HttpGet("{id}")]
         public JsonResult Get(int id)
         {
-            string query = @"EXEC CONSULTA_ANT_PATOLOGICO @ID_PAC";//DEVUELVE NOM_SUC DIR_SUC
+            string query = @"EXEC CONSULTA_ANT_PATOLOGICO @ID_PAC";//DEVUELVE N_ANT, REGISTRO, NOTAS
             DataTable table = new DataTable();
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(_connectionString))
@@ -55,7 +55,7 @@ namespace Expediente_RASE.Controllers
         [HttpPost]
         public JsonResult Post(AntPat_POST antp)
         {
-            string query = @"EXEC AGREGA_ANT_PATOLOGICO @ID_PAC, @ID_ANT, @REG_PAT, @AN_PAT";//DEVUELVE NOM_SUC DIR_SUC
+            string query = @"EXEC AGREGA_ANT_PATOLOGICO @ID_PAC, @ID_ANT, @REG_PAT, @AN_PAT";//REG ES 0-1, AN ES ANOTACIONES
             DataTable table = new DataTable();
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(_connectionString))
@@ -82,7 +82,7 @@ namespace Expediente_RASE.Controllers
         [HttpPut("{id}")]
         public JsonResult Put(AntPat_POST antp,int id)
         {
-            string query = @"EXEC ACTUALIZA_ANT_PATOLOGICO @ID_PAC, @ID_ANT, @REG_PAT, @AN_PAT";//DEVUELVE NOM_SUC DIR_SUC
+            string query = @"EXEC ACTUALIZA_ANT_PATOLOGICO @ID_PAC, @ID_ANT, @REG_PAT, @AN_PAT";
             DataTable table = new DataTable();
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(_connectionString))
@@ -102,7 +102,7 @@ namespace Expediente_RASE.Controllers
                     myCon.Close();
                 }
             }
-            return new JsonResult("Added Successfully");
+            return new JsonResult("Put Successfully");
         }
 
 

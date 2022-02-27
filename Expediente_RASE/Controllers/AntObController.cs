@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Expediente_RASE.DTO
 {
-    [Route("api/[controller]")]
+    [Route("api/Antob")]
     [ApiController]
     public class AntObController : ControllerBase
     {
@@ -30,7 +30,7 @@ namespace Expediente_RASE.DTO
         [HttpGet("{id}")]
         public JsonResult Get(int id)
         {
-            string query = @"EXEC CONSULTA_ANT_PATOLOGICO @ID_PAC";//DEVUELVE NOM_SUC DIR_SUC
+            string query = @"EXEC CONSULTA_ANT_OBS @ID_PAC";//DEVUELVE N_ANT, REGISTRO, NOTAS
             DataTable table = new DataTable();
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(_connectionString))
@@ -52,9 +52,9 @@ namespace Expediente_RASE.DTO
 
         // POST api/<AntPatController>
         [HttpPost]
-        public JsonResult Post(AntPat_POST antp)
+        public JsonResult Post(AntOb_POST antp)
         {
-            string query = @"EXEC AGREGA_ANT_PATOLOGICO @ID_PAC, @ID_ANT, @REG_PAT, @AN_PAT";//DEVUELVE NOM_SUC DIR_SUC
+            string query = @"EXEC AGREGA_ANT_OBS @ID_PAC, @ID_ANT, @AN_OBS";//DEVUELVE NOM_SUC DIR_SUC
             DataTable table = new DataTable();
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(_connectionString))
@@ -64,8 +64,7 @@ namespace Expediente_RASE.DTO
                 {
                     myCommand.Parameters.AddWithValue("@ID_PAC", antp.IdPac);
                     myCommand.Parameters.AddWithValue("@ID_ANT", antp.IdAnt);
-                    myCommand.Parameters.AddWithValue("@REG_PAT", antp.RegPat);
-                    myCommand.Parameters.AddWithValue("@AN_PAT", antp.AnPat);
+                    myCommand.Parameters.AddWithValue("@AN_OBS", antp.AnPsi);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -79,9 +78,9 @@ namespace Expediente_RASE.DTO
 
         // PUT api/<AntPatController>/5
         [HttpPut("{id}")]
-        public JsonResult Put(AntPat_POST antp, int id)
+        public JsonResult Put(AntOb_POST antp, int id)
         {
-            string query = @"EXEC ACTUALIZA_ANT_PATOLOGICO @ID_PAC, @ID_ANT, @REG_PAT, @AN_PAT";//DEVUELVE NOM_SUC DIR_SUC
+            string query = @"EXEC ACTUALIZA_ANT_OBS @ID_PAC, @ID_ANT, @AN_OBS";//DEVUELVE NOM_SUC DIR_SUC
             DataTable table = new DataTable();
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(_connectionString))
@@ -91,8 +90,7 @@ namespace Expediente_RASE.DTO
                 {
                     myCommand.Parameters.AddWithValue("@ID_PAC", id);
                     myCommand.Parameters.AddWithValue("@ID_ANT", antp.IdAnt);
-                    myCommand.Parameters.AddWithValue("@REG_PAT", antp.RegPat);
-                    myCommand.Parameters.AddWithValue("@AN_PAT", antp.AnPat);
+                    myCommand.Parameters.AddWithValue("@AN_OBS", antp.AnPsi);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
