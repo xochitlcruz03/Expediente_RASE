@@ -36,7 +36,7 @@ namespace Expediente_RASE
         {
             //xochitl
             services.AddAutoMapper(typeof(Startup));
-            services.AddScoped<JwtHandler>();
+            //services.AddScoped<JwtHandler>();
             services.AddControllers();
             //Agregamos un servicio de Tipo ApplicationDbContext
             services.AddDbContext<Models.RASE_DBContext>(options =>
@@ -50,7 +50,7 @@ namespace Expediente_RASE
             var jwtSettings = Configuration.GetSection("JwtSettings");
             var key = Encoding.UTF8.GetBytes(jwtSettings.GetSection("securityKey").Value);
             
-            services.AddAuthentication(opt =>
+            /*services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -69,9 +69,9 @@ namespace Expediente_RASE
                       ValidAudience = jwtSettings.GetSection("validAudience").Value,
                       IssuerSigningKey = new SymmetricSecurityKey(key)
                   };
-            });
+            });*/
             //DANIEL 22/11/2021
-            services.AddCors(c =>
+           /* services.AddCors(c =>
             {
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
@@ -83,7 +83,7 @@ namespace Expediente_RASE
                 .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
                 = new DefaultContractResolver());
             
-            services.AddControllers();
+            services.AddControllers();*/
         
           
              
@@ -92,7 +92,7 @@ namespace Expediente_RASE
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+           // app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             if (env.IsDevelopment())
             {
@@ -109,20 +109,19 @@ namespace Expediente_RASE
             app.UseStaticFiles();*/
             //DANIEL 22/11/2021
 
-            app.UseCors(builder =>
+            /*app.UseCors(builder =>
             builder.WithOrigins(Configuration["ApplicationSettings:Client_URL"].ToString())
             .AllowAnyHeader()
             .AllowAnyMethod()
 
-            );
+            );*/
             //app.UseHttpsRedirection();
 
             app.UseRouting();
             //daniel 01/12
-         
 
-            app.UseAuthorization();
-            app.UseAuthentication();
+            //app.UseAuthorization();
+            //app.UseAuthentication();
 
  
 

@@ -7,6 +7,7 @@ namespace Expediente_RASE.Models
 {
     public partial class TInsMed
     {
+        public int? IdPac { get; set; }
         public int? IdCon { get; set; } // id de Tconsulta
         public int? IdMed { get; set; }// pantoprasol - 2045
         public string Indicaciones { get; set; } // 1 tableta
@@ -14,6 +15,7 @@ namespace Expediente_RASE.Models
         public string Duracion { get; set; } //7
         public string NotasIns { get; set; } //presentarse a nueva cita medica en 2 semanas
 
+        public virtual TPac IdPacNavigation { get; set; }
         public virtual TConsulta IdConNavigation { get; set; }
         public virtual TMedicina IdMedNavigation { get; set; }
     }

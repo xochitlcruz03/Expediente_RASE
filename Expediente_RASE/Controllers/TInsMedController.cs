@@ -1,6 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Expediente_RASE.DTO;
+using Expediente_RASE.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,35 +29,101 @@ namespace Expediente_RASE.Controllers
             this._mapper = mapper;
         }
         // GET: api/<TInsMedController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<TInsMedController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public JsonResult Get(int id)
         {
-            return "value";
-        }
+            string query = @"EXEC CONSULTA_INS_MED @ID_CON";
+            DataTable table = new DataTable();
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@ID_CON", id);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult(table);
+        }  
 
         // POST api/<TInsMedController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public JsonResult Post(TInsMed_POST usuario)
         {
+            string query = @"EXEC AGREGA_INS_MED @ID_PAC,@ID_CON,@ID_MED,@INDICACIONES,@FRECUENCIA,@DURACION,@NOTAS_INS";
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand cmd = new SqlCommand(query, myCon))
+                {
+                    cmd.Parameters.AddWithValue("@ID_PAC", usuario.IdPac);
+                    cmd.Parameters.AddWithValue("@ID_CON", usuario.IdCon);
+                    cmd.Parameters.AddWithValue("@ID_MED", usuario.IdMed);
+                    cmd.Parameters.AddWithValue("@INDICACIONES", usuario.Indicaciones);
+                    cmd.Parameters.AddWithValue("@FRECUENCIA", usuario.Frecuencia);
+                    cmd.Parameters.AddWithValue("@DURACION", usuario.Duracion);
+                    cmd.Parameters.AddWithValue("@NOTAS_INS", usuario.NotasIns);
+                    myReader = cmd.ExecuteReader();
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Added Successfully");
         }
 
         // PUT api/<TInsMedController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public JsonResult Put(TInsMed_POST usuario)
         {
-        }
+            string query = @"EXEC ACTUALIZA_INS_MED @ID_PAC,@ID_CON,@ID_MED,@INDICACIONES,@FRECUENCIA,@DURACION,@NOTAS_INS";
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand cmd = new SqlCommand(query, myCon))
+                {
+                    cmd.Parameters.AddWithValue("@ID_PAC", usuario.IdPac);
+                    cmd.Parameters.AddWithValue("@ID_CON", usuario.IdCon);
+                    cmd.Parameters.AddWithValue("@ID_MED", usuario.IdMed);
+                    cmd.Parameters.AddWithValue("@INDICACIONES", usuario.Indicaciones);
+                    cmd.Parameters.AddWithValue("@FRECUENCIA", usuario.Frecuencia);
+                    cmd.Parameters.AddWithValue("@DURACION", usuario.Duracion);
+                    cmd.Parameters.AddWithValue("@NOTAS_INS", usuario.NotasIns);
+                    myReader = cmd.ExecuteReader();
 
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Added Successfully");
+        }
         // DELETE api/<TInsMedController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{id1,id2,id3}")]
+        public JsonResult Delete(TInsMed_POST usuario)
         {
+            string query = @"EXEC ACTUALIZA_INS_MED @ID_PAC,@ID_CON,@ID_MED";
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand cmd = new SqlCommand(query, myCon))
+                {
+                    cmd.Parameters.AddWithValue("@ID_PAC", usuario.IdPac);
+                    cmd.Parameters.AddWithValue("@ID_CON", usuario.IdCon);
+                    cmd.Parameters.AddWithValue("@ID_MED", usuario.IdMed);
+                    myReader = cmd.ExecuteReader();
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Added Successfully");
         }
     }
 }

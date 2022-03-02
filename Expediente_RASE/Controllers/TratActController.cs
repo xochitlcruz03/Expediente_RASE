@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Expediente_RASE.DTO;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,35 +28,95 @@ namespace Expediente_RASE.Controllers
             this._mapper = mapper;
         }
         // GET: api/<TratActController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpGet("{id:int}")]
+        public JsonResult Get(int id)
         {
-            return new string[] { "value1", "value2" };
-        }
+            string query = @"EXEC CONSULTA_TRAT_ACT @ID_PAC";
+            DataTable table = new DataTable();
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@ID_PAC", id);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader); ;
 
-        // GET api/<TratActController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult(table);
         }
 
         // POST api/<TratActController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public JsonResult Post(TratAct_POST usuario)
         {
+            string query = @"EXEC AGREGA_TRAT_ACT @ID_PAC,@TIPO_TRAT,@MEDIC";
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand cmd = new SqlCommand(query, myCon))
+                {
+                    cmd.Parameters.AddWithValue("@ID_PAC", usuario.IdPac);
+                    cmd.Parameters.AddWithValue("@TIPO_TRAT", usuario.TipoTrat);
+                    cmd.Parameters.AddWithValue("@MEDIC", usuario.Medic);
+                    myReader = cmd.ExecuteReader();
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Added Successfully");
         }
 
         // PUT api/<TratActController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public JsonResult Put(TratAct_POST usuario, int id)
         {
+            string query = @"EXEC ACTUALIZA_TRAT_ACT @ID_PAC,@TIPO_TRAT,@MEDIC";
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand cmd = new SqlCommand(query, myCon))
+                {
+                    cmd.Parameters.AddWithValue("@ID_PAC", usuario.IdPac);
+                    cmd.Parameters.AddWithValue("@TIPO_TRAT", usuario.TipoTrat);
+                    cmd.Parameters.AddWithValue("@MEDIC", usuario.Medic);
+                    myReader = cmd.ExecuteReader();
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult("Added Successfully");
         }
 
         // DELETE api/<TratActController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+       /* [HttpDelete("{id}")]
+        public JsonResult Delete( int id)
         {
-        }
+            string query = @"EXEC ELIMINA_DOCTOR @ID_DOC";
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(_connectionString))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@ID_DOC", id);
+                    myReader = myCommand.ExecuteReader();
+
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+
+            return new JsonResult("Deleted Successfully");
+
+        }*/
     }
 }
