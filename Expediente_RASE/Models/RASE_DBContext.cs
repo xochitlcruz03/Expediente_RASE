@@ -2,7 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
+//using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 #nullable disable
 
 namespace Expediente_RASE.Models

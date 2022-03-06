@@ -11,7 +11,6 @@ namespace Expediente_RASE.Models
         {
             TConsulta = new HashSet<TConsulta>();
         }
-
         public int IdPac { get; set; }
         public string NomPac { get; set; }
         public string ApPatPac { get; set; }

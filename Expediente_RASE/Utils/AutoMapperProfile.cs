@@ -25,7 +25,11 @@ namespace Expediente_RASE.Utils
             CreateMap<TConsulta, TConsulta_POST>().ReverseMap();//mapea desde Autor hacia AutorDTO y viceversa
             CreateMap<TConsulta_POST, TConsulta>();//mapea desde AutorCreacionDTO hacia Autor
 
+            CreateMap<TratActivo, TratAct_POST>().ReverseMap();//mapea desde Autor hacia AutorDTO y viceversa
+            CreateMap<TratAct_POST, TratActivo>();//mapea desde AutorCreacionDTO hacia Autor
 
+            CreateMap<TInsMed, TInsMed_POST>().ReverseMap();//mapea desde Autor hacia AutorDTO y viceversa
+            CreateMap<TInsMed_POST, TInsMed>();//mapea desde AutorCreacionDTO hacia Autor
         }
     }
 }

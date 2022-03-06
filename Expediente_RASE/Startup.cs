@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,16 +7,21 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
 using Expediente_RASE.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Serilog;
-using Expediente_RASE.DTO;
+using DinkToPdf.Contracts;
+using DinkToPdf;
+using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Mvc;
+
 
 namespace Expediente_RASE
 {
@@ -36,45 +39,52 @@ namespace Expediente_RASE
         {
             //xochitl
             services.AddAutoMapper(typeof(Startup));
+            //crear login
             //services.AddScoped<JwtHandler>();
             services.AddControllers();
+            //crear pdf
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             //Agregamos un servicio de Tipo ApplicationDbContext
             services.AddDbContext<Models.RASE_DBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Sucursal2")));
-            
+
+            /*services.AddIdentity<ApplicationUser, IdentityRole>()
+                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                 .AddDefaultTokenProviders();*/
+
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Expediente_RASE", Version = "v1" });
             });
             //Lo que pidio Dniel de autenticacion Angular
-            var jwtSettings = Configuration.GetSection("JwtSettings");
-            var key = Encoding.UTF8.GetBytes(jwtSettings.GetSection("securityKey").Value);
-            
-            /*services.AddAuthentication(opt =>
-            {
-                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                  options.RequireHttpsMetadata = false;
-                  options.SaveToken = false;    
-                  options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-                {
-                      ValidateIssuer = true,
-                      ValidateAudience = true,
-                      ValidateLifetime = true,
-                      ValidateIssuerSigningKey = true,
-                      ValidIssuer = jwtSettings.GetSection("validIssuer").Value,
-                      ValidAudience = jwtSettings.GetSection("validAudience").Value,
-                      IssuerSigningKey = new SymmetricSecurityKey(key)
-                  };
-            });*/
+
+            /*services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                 options.TokenValidationParameters = new TokenValidationParameters
+                 {
+                     ValidateIssuer = true,
+                     ValidateAudience = true,
+                     ValidateLifetime = true,
+                     ValidateIssuerSigningKey = true,
+                     ValidIssuer = "yourdomain.com",
+                     ValidAudience = "yourdomain.com",
+                     IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(Configuration["Llave"])),
+                     ClockSkew = TimeSpan.Zero
+                 });*/
+
             //DANIEL 22/11/2021
-           /* services.AddCors(c =>
+            //CORS
+            /*services.AddCors(options =>
             {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-            });
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });*/
+
             //JSON xochitl
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
@@ -82,17 +92,19 @@ namespace Expediente_RASE
                 .Json.ReferenceLoopHandling.Ignore)
                 .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
                 = new DefaultContractResolver());
-            
-            services.AddControllers();*/
-        
+
+            /*services.AddControllers();
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(Configuration)
+                .CreateLogger();*/
           
              
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-           // app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            //app.UseCors("CorsPolicy");
 
             if (env.IsDevelopment())
             {
@@ -122,6 +134,8 @@ namespace Expediente_RASE
 
             //app.UseAuthorization();
             //app.UseAuthentication();
+
+            //loggerFactory.AddSerilog();
 
  
 
