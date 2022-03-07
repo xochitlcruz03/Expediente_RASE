@@ -5,8 +5,9 @@
 }
 
 table {
-    width: 80%;
+    width: 552.8pt;
     border-collapse: collapse;
+    border: none;
 }
 
 td, th {

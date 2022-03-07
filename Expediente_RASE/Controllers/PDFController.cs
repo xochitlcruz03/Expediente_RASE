@@ -168,6 +168,7 @@ namespace Expediente_RASE.Controllers
                 GlobalSettings = globalSettings,
                 Objects = { objectSettings }
             };
+            
             var file= _converter.Convert(pdf);
             //return Ok("Successfully created PDF document.");
             return File(file, "application/pdf");

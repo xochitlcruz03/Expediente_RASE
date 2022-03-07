@@ -16,9 +16,9 @@ namespace Expediente_RASE.Utils
 
         public TemplateGenerator(Models.RASE_DBContext context, IConfiguration configuration, IMapper mapper) //Inyeccion de una dependencia
         {
-
+            
             _connectionString = configuration.GetConnectionString("Sucursal2");
-
+            
         }
         private DataTable GetData(string query)
         {
@@ -41,8 +41,7 @@ namespace Expediente_RASE.Utils
         }
         public static string GetHTMLString()
         {
-            //
-            //var employees = DataStorage.GetAllEmployess();
+            var employees = DataStorage.GetAllEmployees();
             var sb = new StringBuilder();
             sb.Append(@"
                         <html>
@@ -130,34 +129,6 @@ namespace Expediente_RASE.Utils
     </tbody>
 </table>
 
-                                <table align='center'>
-                                    <tr>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </table>
-                            </body>
-                        </html>");
-            return sb.ToString();
-        }
-
-
-    } 
-}
-            
-           //foreach (var emp in employees)
-           /*{
-                sb.AppendFormat(@"<tr>
-                                    <td>{0}</td>
-                                    <td>{1}</td>
-                                    <td>{2}</td>
-                                    <td>{3}</td>
-                                  </tr>", 
-                                  emp.IdMed, emp.Frecuencia, emp.Duracion, emp.NotasIns);
-            }
-            sb.Append(@"
-                                </table>/*
                             </body>
                         </html>");
             return sb.ToString();
@@ -165,4 +136,4 @@ namespace Expediente_RASE.Utils
 
         
     }
-}/*
+}
