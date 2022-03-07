@@ -78,11 +78,10 @@ namespace Expediente_RASE
             //CORS dont move
             services.AddCors(options =>
             {
-                options.AddPolicy("CorsPolicy",
+                options.AddDefaultPolicy(
                     builder => builder.AllowAnyOrigin()
                     .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials());
+                    .AllowAnyHeader());
             });
 
             //JSON xochitl
@@ -104,7 +103,7 @@ namespace Expediente_RASE
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            app.UseCors("CorsPolicy");
+            app.UseCors();
 
             if (env.IsDevelopment())
             {
