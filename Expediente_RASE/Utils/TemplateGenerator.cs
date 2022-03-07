@@ -43,6 +43,7 @@ namespace Expediente_RASE.Utils
         {
             var employees = DataStorage.GetAllEmployees();
             var sb = new StringBuilder();
+            
             sb.Append(@"
                         <html>
                             <head>
@@ -52,9 +53,9 @@ namespace Expediente_RASE.Utils
                                 
                                 <table>
     <tbody>
-        <tr>
-            <td>
+        <tr> <div class='Fecha'>
                 <p>Fecha:07/03/2022</p>
+             <div>
             </td>
             <td>
                 <p>Consulta-rase</p>
@@ -64,34 +65,41 @@ namespace Expediente_RASE.Utils
             </td>
         </tr>
         <tr>
-            <td>
-                <p>IMG</p>
+            <td>&nbsp;
             </td>
-            <td  align='center'>
-                <p >Matriz Consultorio&nbsp;<br>&nbsp;nombre Doctor<br>&nbsp;Especialidad<br>&nbsp;correo<br>&nbsp;c&eacute;dula:</p>
+            <td><div class='Matriz'>
+                <p>Matriz Consultorio&nbsp;<br> <strong>ZAIRA LUEVANO PELAYO&nbsp;</strong><br> <strong>M&eacute;dico Cirujano</strong><br>&nbsp;zairaluevanopelayo@gmail.com<br>&nbsp;C&eacute;dula Profesional: XXXXXXXX</p>
+                </div>
             </td>
-            <td>
+            <td >
+                <div class='folio'>
                 <p>Receta de Medicamentos</p>
                 <p>Generado por: RASE</p>
-                <p>Folio: ID_CON</p>
+                <p>Folio: 100001</p>
+                </div>
             </td>
         </tr>
-        <tr>
+        <tr><div class='paciente'>
             <td>
-                <p>Paciente: NOM_PAC</p>
+                <p>Paciente: ANTONIO VAZQUEZ VALENCIA</p>
+            </td>
+            </div>
+            <td>
+                <p>Sexo: MASCULINO</p>
             </td>
         </tr>
-        <tr>
+        <tr><div id='medicamento'>
             <td>
                 <p>Medicamentos</p>
             </td>
+        </div>
         </tr>
         <tr>
             <td>
                 <p>Medicamento</p>
             </td>
             <td>
-                <p>Dosis&nbsp;</p>
+                <p> Dosis </p>
             </td>
             <td>
                 <p>Frecuencia</p>
@@ -105,31 +113,41 @@ namespace Expediente_RASE.Utils
         </tr>
         <tr>
             <td>
-                <p>&nbsp;</p>
+                <p>Aspirina 500 mg</p>
             </td>
             <td>
-                <p>&nbsp;</p>
+                <p>1 tableta</p>
             </td>
             <td>
-                <p>&nbsp;</p>
+                <p>Cada 8 horas</p>
             </td>
             <td>
-                <p>&nbsp;</p>
+                <p>Por 7 d&iacute;as</p>
             </td>
             <td>
-                <p>&nbsp;</p>
+                <p>En caso de dolor</p>
             </td>
         </tr>
         <tr>
-            <td aling = 'center'>
-                <p>_______________________</p>
-                <p>NOMBRE_DOCTOR</p>
+        
+            <td>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+           
+                 
+               <p>________________________</p>
+                <p>&nbsp;</p>
+                <p ><strong>ZAIRA LUEVANO PELAYO</strong></p>
             </td>
         </tr>
     </tbody>
 </table>
+                                                                                                 
 
-                            </body>
+                                                                                                                             </body>
                         </html>");
             return sb.ToString();
         }

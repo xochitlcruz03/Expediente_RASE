@@ -1,6 +1,6 @@
 ﻿.header {
     text-align: center;
-    color: green;
+    color: darkblue;
     padding-bottom: 35px;
 }
 
@@ -17,6 +17,10 @@ td, th {
     font-size: 22px;
     text-align: center;
 }
+span {
+    font-size: 16px;
+    font-family: "Arial",sans-serif;
+}
 p {
     margin-top:0cm;
     margin-right:0cm;
@@ -24,7 +28,48 @@ p {
     margin-left:0cm;
     line-height:  normal;
     font-size:15px;
-    font-family:"Calibri",sans-serif;'><span style='font-size:16px;
-    font-family:  "Arial",sans-serif;
+    font-family:"Calibri",sans-serif;
+}
+fecha {
+    margin-top:0cm;
+    margin-right:0cm;
+    margin-bottom:.0001pt;
+    margin-left:0cm;
+    line-height:  normal;
+    font-size:15px;
+    font-family:"Calibri",sans-serif;
+}
+Matriz {
+    margin-top:0cm;
+    margin-right:0cm;
+    margin-bottom:.0001pt;
+    margin-left:0cm;
+    line-height:normal;
+    font-size:15px;
+    font-family:"Calibri",sans-serif;
+    text-align:right;
+}
+folio {
+    width: 113.6pt;
+    border-top: none;
+    border-left: none;
+    border-bottom: 1pt solid windowtext;
+    border-right: 1pt solid rgb(191, 191, 191);
+    padding: 0cm 5.4pt;
+    height: 109.45pt;
+    vertical-align: top;
+    text-align: right;
+}
+medicamento {
+    width: 552.8pt;
+    border-right: 1pt solid rgb(191, 191, 191);
+    border-bottom: 1pt solid rgb(191, 191, 191);
+    border-left: 1pt solid rgb(191, 191, 191);
+    border-image: initial;
+    border-top: none;
+    background: rgb(222, 234, 246);
+    padding: 0cm 5.4pt;
+    height: 14.65pt;
+    vertical-align: top;
 }
 
