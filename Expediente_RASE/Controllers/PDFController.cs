@@ -28,16 +28,16 @@ namespace Expediente_RASE.Controllers
 
         private readonly string _connectionString;
         private IConverter _converter;
-       
+
         public PDFController(IConfiguration configuration, IConverter converter)
         {
 
             _connectionString = configuration.GetConnectionString("Sucursal2");
             _converter = converter;
-
+           
         }
         // GET api/<PDFController>/5
-        [HttpGet("{id}")]
+        /*[HttpGet("{id}")]
         public JsonResult Get(int id_con)
         {
             string query = @"EXEC CONSULTA_INS_MED @ID_CON";
@@ -57,9 +57,10 @@ namespace Expediente_RASE.Controllers
                 }
             }
             return new JsonResult(table);
-        }
+        }*/
         /*public void crear_pdf(DataTable dt)
         {
+            _response = new HttpResponseMessage();
             //DataTable dt = new DataTable();
             Document document = new Document();
             
@@ -106,10 +107,15 @@ namespace Expediente_RASE.Controllers
             document.Close();
 
             Response.ContentType = "application/pdf";
+           
+           
+          
+
             Response.AddHeader("content-disposition", "attachment;filename=AlumnosActuales2020" + ".pdf");
             HttpContext.Current.Response.Write(document);
             Response.Flush();
             Response.End();
+            Response.close();
         }*/
 
         /*[Route("getfile")]
@@ -137,22 +143,23 @@ namespace Expediente_RASE.Controllers
         }*/
 
         [HttpGet]
-        public IActionResult CreatePDF(int id)
+        public IActionResult CreatePDF()
         {
+            
             var globalSettings = new GlobalSettings
             {
                 ColorMode = ColorMode.Color,
                 Orientation = Orientation.Portrait,
                 PaperSize = PaperKind.A4,
                 Margins = new MarginSettings { Top = 10 },
-                DocumentTitle = "PDF Report",
-                Out = @"C:\Users\elektra\Documents\octavoA\programacionweb\reporte.pdf"
+                DocumentTitle = "Receta Medica",
+                //Out = @"C:\Users\elektra\Documents\octavoA\programacionweb\reporte.pdf"
             };
             var objectSettings = new ObjectSettings
             {
                 PagesCount = true,
-                HtmlContent = TemplateGenerator.GetHTMLString(id),
-                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "assets", "styles.css") },
+                HtmlContent = TemplateGenerator.GetHTMLString(),
+                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "Utils", "styles.css") },
                 HeaderSettings = { FontName = "Arial", FontSize = 9, Right = "Page [page] of [toPage]", Line = true },
                 FooterSettings = { FontName = "Arial", FontSize = 9, Line = true, Center = "Receta Medica" }
             };
@@ -161,8 +168,9 @@ namespace Expediente_RASE.Controllers
                 GlobalSettings = globalSettings,
                 Objects = { objectSettings }
             };
-            _converter.Convert(pdf);
-            return Ok("Successfully created PDF document.");
+            var file= _converter.Convert(pdf);
+            //return Ok("Successfully created PDF document.");
+            return File(file, "application/pdf");
         }
 
     }  
